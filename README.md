@@ -1,9 +1,7 @@
 # Software Engineering Project 2022-2023
 
 Group: softeng2022-22
-Members: elYYNNN, elYYNNN, ... (replace YYNNN as needed. PLEASE keep this up-to-date)
+Members: el19149, el19192, el19127, el19032, el19181
   
   
-  
-(your README.md content goes here)
 
