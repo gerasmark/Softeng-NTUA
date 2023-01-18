@@ -18,5 +18,9 @@
   "bugs": {
     "url": "https://github.com/ntua/SoftEng22-22/issues"
   },
-  "homepage": "https://github.com/ntua/SoftEng22-22#readme"
+  "homepage": "https://github.com/ntua/SoftEng22-22#readme",
+  "dependencies": {
+    "axios": "^1.2.3",
+    "vue": "^3.2.45"
+  }
 }
