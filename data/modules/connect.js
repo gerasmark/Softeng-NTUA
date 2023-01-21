@@ -1,0 +1,7 @@
+const mongoose = require('mongoose')
+const url = 'mongodb+srv://gerasimos:gerasimos@nodeexpress.xtecm6k.mongodb.net/survey?retryWrites=true&w=majority'
+mongoose.connect(url,{useNewUrlParser:true,useUnifiedTopology:true})
+.then(()=>{
+    console.log('Conected to db')
+})
+.catch((err) => console.log(err))

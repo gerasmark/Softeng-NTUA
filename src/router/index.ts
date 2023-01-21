@@ -1,17 +1,17 @@
 // @ts-ignore
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import App from '../views/App.vue'
 
 // @ts-ignore
 // @ts-ignore
 // @ts-ignore
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(),
   routes: [
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: App
     },
     {
       path: '/about',
