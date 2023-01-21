@@ -1,23 +1,26 @@
 const express = require("express");
 const userModel = require('./user');
-const app = express();
-app.post("/", async (request, response) => {
-    const user = new userModel(request.body);
-  
-    try {
-      await user.save();
-      response.send(user);
-    } catch (error) {
-      response.status(500).send(error);
-    }
-});
-app.get("/", async (request, response) => {
-    const users = await userModel.find({});
-  
-    try {
-      response.send(users);
-    } catch (error) {
-      response.status(500).send(error);
-    }
-  });
+const app = express.Router();
+app.post('/add', (req, res) => {
+  if(!req.body) {
+    return res.status(400).send('Request body is missing')
+  }
+
+  if(!req.body.email) {
+    // ...
+  }
+  let model = new userModel(req.body)
+  model.save()
+    .then(doc => {
+      if(!doc || doc.length === 0) {
+        return res.status(500).send(doc)
+      }
+
+      res.status(201).send(doc)
+    })
+    .catch(err => {
+      res.status(500).json(err)
+    })
+})
   module.exports = app;
+  
