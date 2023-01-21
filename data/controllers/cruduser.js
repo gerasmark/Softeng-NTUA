@@ -1,7 +1,7 @@
 const express = require("express");
-const userModel = require("./data/models/database");
+const userModel = require('./user');
 const app = express();
-app.post("/add_user", async (request, response) => {
+app.post("/", async (request, response) => {
     const user = new userModel(request.body);
   
     try {
@@ -11,7 +11,7 @@ app.post("/add_user", async (request, response) => {
       response.status(500).send(error);
     }
 });
-app.get("/users", async (request, response) => {
+app.get("/", async (request, response) => {
     const users = await userModel.find({});
   
     try {
