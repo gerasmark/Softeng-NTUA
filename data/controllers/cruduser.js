@@ -1,7 +1,7 @@
 const express = require("express");
 const userModel = require('./user');
 const app = express.Router();
-app.post('/add', (req, res) => {
+app.post('/', (req, res) => {
   if(!req.body) {
     return res.status(400).send('Request body is missing')
   }

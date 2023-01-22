@@ -6,7 +6,7 @@ import App from '../views/App.vue'
 // @ts-ignore
 // @ts-ignore
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
