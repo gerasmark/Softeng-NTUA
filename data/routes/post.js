@@ -3,8 +3,8 @@ const userModel = require('../models/user');
 const app = express.Router();
 
 //post request
-app.post('/', (req, res) => {
+app.get('/', (req, res) => {
   res.send('hello world')
-})
+});
   module.exports = app;
   

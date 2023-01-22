@@ -9,6 +9,9 @@ const survey = require('./data/models/survey.js')
 
 
 //const users = require('./data/models/cruduser.js')
+
+const bodyParser = require('body-parser')
+const cors = require('cors')
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
@@ -17,8 +20,13 @@ const router = express.Router();
 require('custom-env').env('localhost');
 const app= express();
 
+//middleware
+app.use(bodyParser.json());
+app.use(cors())
+
+
 //run post and get responses
-app.use('/post/user',user)
+app.use('/post/user',user);
 app.get('/hello', (req, res) => {
     res.send('Hello');
 });
