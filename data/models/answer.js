@@ -13,7 +13,8 @@ const answerSchema = new Schema({
     user: {
       type: Schema.Types.ObjectId,
       ref: 'User'
-    }
+    }}, {
+      versionKey: false
   });
   const Answer = mongoose.model('Answer', answerSchema);
   module.exports = Answer;

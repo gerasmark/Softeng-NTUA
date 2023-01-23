@@ -13,7 +13,8 @@ const answerSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: 'User'
-  }
+  }}, {
+    versionKey: false
 });
 const questionSchema = new Schema({
   text: {
@@ -24,7 +25,8 @@ const questionSchema = new Schema({
   nextQuestions: [{
     type: Schema.Types.ObjectId,
     ref: 'Question'
-  }]
+  }]}, {
+    versionKey: false
 });
 const surveySchema = new Schema({
     name: {
@@ -40,7 +42,8 @@ const surveySchema = new Schema({
     createdAt: {
       type: Date,
       default: Date.now
-    }
+    }}, {
+      versionKey: false
   });
   const Survey = mongoose.model('Survey', surveySchema);
   module.exports = Survey;
