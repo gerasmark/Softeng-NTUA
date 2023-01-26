@@ -36,9 +36,11 @@
     "mongoose": "^6.8.4",
     "pinia": "^2.0.29",
     "vue": "^3.2.45",
-    "vue-router": "^4.1.6"
+    "vue-router": "^4.1.6",
+    "vuetify": "^3.1.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "vue-cli-plugin-vuetify": "~2.5.8"
   }
 }
