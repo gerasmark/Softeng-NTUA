@@ -1,7 +1,7 @@
 import axios from 'axios';
-const url = 'http://localhost:5000/post/user/';
+const url = 'http://localhost:3000/post/user/';
 
-class postservice {
+class service {
     static getuser(){
         return new Promise(async (resolve, reject) => {
             try {
@@ -18,4 +18,4 @@ class postservice {
     }
 
 }
-export default postservice;
+export default service;
