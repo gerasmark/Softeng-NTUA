@@ -4,7 +4,7 @@ export const BASE_URL = 'http://localhost:3000/' ;
 var request = {
     loginUser(loginUserObj, loginCallBack){
 
-        axios.post(BASE_URL, loginUserObj)
+        axios.post(BASE_URL + '/loginUser', loginUserObj)
                 .then((response => {
                     loginCallBack(response.data)
                 }))

@@ -49,7 +49,6 @@
                                     x-large
                                     block
                                     rounded
-
                                     @click="login"
                                     class="bg-indigo-lighten-1">
                                 Submit
@@ -69,6 +68,8 @@
 <script>
 import {options} from "axios";
 import postService from '../postservice';
+import requests from "../requests";
+import {response} from "express";
 export default {
     name: "loginPage",
     data: () => ({
@@ -83,17 +84,44 @@ export default {
         try{
             this.admins = await postService.getadmin();
             this.institutions = await postService.getinstitution();
-        }catch (error) {
-            reject(error);
+        } catch (error) {
+          //  reject(error);
         }
     },
     methods: {
         login(){
-        }
-    },
+            if(this.selectedValue==='User'){
+                var loginUserObj = {
+                    name: ''
+                };
+                requests.loginUser(loginUserObj,this.loginCallBackUser);
+            }
+            if(this.selectedValue==='Admin'){
+                var loginAdminObj = {
+                    name: this.admins
+                };
+                requests.loginAdmin(loginAdminObj,this.loginCallBackAdmin);
+            }
+            if(this.selectedValue==='Institutions'){
+                var loginInstitutionsObj = {
+                    name: this.institutions
+                };
+                requests.loginInstitution(loginAdminObj,this.loginCallBackInstitutions);
+            }
 
-    created(){
-
+        },
+        loginCallBackUser(response) {
+            this.$router.push({path: '/homePageUser'})     //to be created !!!!!!!!!!!!!!!!!!!!
+            console.log(response);
+        },
+        loginCallBackAdmin(response){
+            this.$router.push({path: '/homePageAdmin'})     //to be created !!!!!!!!!!!!!!!!!!!!
+            console.log(response);
+        },
+        loginCallBackInstitutions(response){
+            this.$router.push({path: '/homePageInstitutions'})     //to be created !!!!!!!!!!!!!!!!!!!!
+            console.log(response);
+         }
     },
 
     mounted() {

@@ -2,6 +2,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LoginPage from '../components/LoginPage.vue'
 import Postuser from '../components/Postuser.vue'
+import HomePageUser from '../components/HomePageUser.vue'
 
 // @ts-ignore
 // @ts-ignore
@@ -16,6 +17,11 @@ const routes = [
         path: '/adduser',
         name: 'Add',
         component: Postuser
+    },
+    {
+        path: '/homePageUser',
+        name: 'User',
+        component: HomePageUser
     }
 ]
 const router = createRouter({

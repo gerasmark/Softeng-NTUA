@@ -1,1 +1,0 @@
-const controller = require("../controllers/loginUser.controller.js");
