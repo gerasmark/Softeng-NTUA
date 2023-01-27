@@ -74,7 +74,7 @@ export default {
     data: () => ({
         items: ['User', 'Admin', 'Institution'],
         admins: [],
-        institutions: ['NTUA'],
+        institutions: [],
         selectedValue: '',
         reveal: false,
 
@@ -82,6 +82,7 @@ export default {
     async created() {
         try{
             this.admins = await postService.getadmin();
+            this.institutions = await postService.getinstitution();
         }catch (error) {
             reject(error);
         }
