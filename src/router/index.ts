@@ -1,25 +1,27 @@
 // @ts-ignore
 import { createRouter, createWebHistory } from 'vue-router'
-import App from '../App.vue'
-import Postcomponent from '../components/Postcomponent.vue'
+import LoginPage from '../components/LoginPage.vue'
+import Postuser from '../components/Postuser.vue'
 
 // @ts-ignore
 // @ts-ignore
 // @ts-ignore
+const routes = [
+    {
+        path: '/login',
+        name: 'LoginPage',
+        component: LoginPage
+    },
+    {
+        path: '/adduser',
+        name: 'Add',
+        component: Postuser
+    }
+]
 const router = createRouter({
-  //history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '',
-      name: 'home',
-      component: App
-    },
-    {
-      path: '/add',
-      name: 'add',
-      component: Postcomponent
-    },
-  ]
+    history: createWebHistory(process.env.BASE_URL),
+    //import.meta
+    routes
 })
 export default router
 
