@@ -83,6 +83,13 @@ export default {
         login(){
 
         }
+    },
+
+    created(){
+
+    },
+
+    mounted() {
     }
 }
 
