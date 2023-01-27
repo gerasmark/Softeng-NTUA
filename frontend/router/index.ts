@@ -8,7 +8,7 @@ import Postuser from '../components/Postuser.vue'
 // @ts-ignore
 const routes = [
     {
-        path: '/login',
+        path: '/',
         name: 'LoginPage',
         component: LoginPage
     },

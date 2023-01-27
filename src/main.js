@@ -1,7 +1,7 @@
 import { createApp} from 'vue'
-import LoginPage from './components/LoginPage.vue'
-import App from './components/App.vue'
-import router from './router/index.ts'
+import LoginPage from '../frontend/components/LoginPage.vue'
+import App from '../frontend/components/App.vue'
+import router from '../frontend/router/index.ts'
 
 // Vuetify
 import 'vuetify/styles'
