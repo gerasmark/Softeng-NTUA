@@ -68,17 +68,24 @@
 
 <script>
 import {options} from "axios";
-
+import postService from '../postservice';
 export default {
     name: "loginPage",
     data: () => ({
         items: ['User', 'Admin', 'Institution'],
-        admins: ['Despoina', 'Gerasimos', 'Constantine'],
+        admins: [],
         institutions: ['NTUA'],
         selectedValue: '',
         reveal: false,
 
     }),
+    async created() {
+        try{
+            this.admins = await postService.getadmin();
+        }catch (error) {
+            reject(error);
+        }
+    },
     methods: {
         login(){
 
