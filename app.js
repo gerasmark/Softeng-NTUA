@@ -1,10 +1,10 @@
 //create mongo database
 require('./data/models/connect.js')
-const question = require('./data/models/question.js')
+const question = require('./data/routes/questionpost.js')
 const user = require('./data/routes/userpost.js')
 const admin = require('./data/routes/adminpost.js')
-const institution = require('./data/models/institution.js')
-const answer = require('./data/models/answer.js')
+const institution = require('./data/routes/institutionpost.js')
+const answer = require('./data/routes/answerpost.js')
 const survey = require('./data/routes/surveypost.js')
 
 const bodyParser = require('body-parser')
@@ -26,6 +26,9 @@ app.use(cors())
 app.use('/post/user',user);
 app.use('/post/survey',survey);
 app.use('/post/admin',admin);
+app.use('/post/institution',institution);
+app.use('/post/question',question);
+app.use('/post/answer',answer);
 app.get('/hello', (req, res) => {
     res.send('Hello');
 });
