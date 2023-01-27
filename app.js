@@ -17,7 +17,7 @@ const router = express.Router();
 require('custom-env').env('localhost');
 const app= express();
 var index=require('./api-backend/routes/index.js');
-const backendRoutes = require("./api-backend/routes/user.routes.js");
+const backendRoutes =
 
 //middleware
 app.use(bodyParser.json());
@@ -34,7 +34,7 @@ app.use(cors());
 
 app.use('/',index);
 
-backendRoutes(app);
+require("./api-backend/routes/user.routes.js")(app);
 app.get('/hello', (req, res) => {
     res.send('Hello');
 });

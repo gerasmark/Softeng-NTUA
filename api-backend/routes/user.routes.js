@@ -9,7 +9,7 @@ module.exports = function(app){
         );
     });
 
-    app.post("/loginUser", controller.loginUser())
+    app.post("/loginUser", controller.loginUser);
 
     //OPWS STO /DATA/ROUTES/USERPOST META TO ASYNC EINAI O CONRTOLLER
     // app.post('/', async (req, res) => {
