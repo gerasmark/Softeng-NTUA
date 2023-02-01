@@ -7,9 +7,9 @@ import UserSurveys from '../components/UserSurveys.vue'
 // @ts-ignore
 // @ts-ignore
 // @ts-ignore
-const routes = [
+const routes = [ 
     {
-        path: '/login',
+        path: '/',
         name: 'LoginPage',
         component: LoginPage
     },
