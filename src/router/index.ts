@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import LoginPage from '../components/LoginPage.vue'
 import Postuser from '../components/Postuser.vue'
 import UserSurveys from '../components/UserSurveys.vue'
+import Admin from '../components/Admin.vue'
 
 // @ts-ignore
 // @ts-ignore
@@ -17,6 +18,11 @@ const routes = [
         path: '/adduser',
         name: 'Add',
         component: Postuser
+    },
+    {
+        path: '/admin',
+        name: 'Admin',
+        component: Admin
     },
     {
         path: '/usersurveys',
