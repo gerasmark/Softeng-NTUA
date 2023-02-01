@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const surveySchema = new Schema({
+            questionnaireID: { type: String, required: true },
             questionnaireTitle: {
       type: String,
       required: true
