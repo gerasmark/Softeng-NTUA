@@ -5,4 +5,6 @@ const app = express.Router();
 const adminController = require('../controllers/adminServer');
 //get request
 app.get('/healthcheck', adminController.healthCheck);
+app.get('/resetall', adminController.resetAll);
+app.get('/resetq/:questionnaireID', adminController.resetq);
 module.exports = app;
