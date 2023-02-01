@@ -1,19 +1,22 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const answerSchema = new Schema({
-    choice: {
-      type: Number,
-      min: 0,
-      required: true
+    questionnaire: {
+        type: Schema.Types.ObjectId,
+        ref: 'Questionnaire'
     },
-    question: {
-      type: Schema.Types.ObjectId,
-      ref: 'Question'
+    answers: [{
+    optID: {
+      type: String
     },
+    qID: {
+      type: String
+    }}],
     user: {
       type: Schema.Types.ObjectId,
       ref: 'User'
-    }}, {
+    }}
+    , {
       versionKey: false
   });
   const Answer = mongoose.model('Answer', answerSchema);
