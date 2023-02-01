@@ -10,7 +10,7 @@ import Admin from '../components/Admin.vue'
 // @ts-ignore
 const routes = [
     {
-        path: '/login',
+        path: '/',
         name: 'LoginPage',
         component: LoginPage
     },
