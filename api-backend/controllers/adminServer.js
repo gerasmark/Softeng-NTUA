@@ -16,7 +16,13 @@ exports.questionnaire_upd = (req, res) => {
 
 }
 exports.resetq = (req, res) => {
-    answerModel.deleteMany({  questionnaireID: req.params.questionnaireID });
+    answerModel.deleteMany({  questionnaireID: req.params.questionnaireID }, (error) => {
+        if (error) {
+            res.json({"status":"failed", "reason":error});
+        } else {
+            res.json({"status":"OK"});
+        }
+    });
 
 
 }
