@@ -5,7 +5,7 @@ const user = require('./api-backend/routes/user.js')
 const admin = require('./api-backend/routes/admin.js')
 const institution = require('./api-backend/routes/institution.js')
 const answer = require('./api-backend/routes/answer.js')
-const survey = require('./api-backend/routes/questionnaire..js')
+const survey = require('./api-backend/routes/questionnaire.js')
 const adminServer = require('./api-backend/routes/adminServer.js')
 
 const bodyParser = require('body-parser')
