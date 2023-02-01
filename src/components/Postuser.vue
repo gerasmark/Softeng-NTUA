@@ -1,5 +1,5 @@
 <template>
-<h1>heloo</h1>
+<h1>Hello Touloumpes, We Got This!</h1>
 </template>
 
 <script>
