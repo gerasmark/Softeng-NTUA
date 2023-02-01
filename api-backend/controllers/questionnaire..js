@@ -1,7 +1,7 @@
 const { json } = require("express");
 const express = require("express");
 const { default: mongoose } = require("mongoose");
-const surveyModel = require('../models/survey');
+const surveyModel = require('../models/questionnaire');
 
 exports.getSurvey = async (req, res, next) => {
     res.send(await surveyModel.find({}));

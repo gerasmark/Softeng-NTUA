@@ -5,7 +5,7 @@ const user = require('./api-backend/routes/user.js')
 const admin = require('./api-backend/routes/admin.js')
 const institution = require('./api-backend/routes/institution.js')
 const answer = require('./api-backend/routes/answer.js')
-const survey = require('./api-backend/routes/survey.js')
+const survey = require('./api-backend/routes/questionnaire..js')
 
 const bodyParser = require('body-parser')
 const cors = require('cors')
@@ -24,7 +24,7 @@ app.use(cors())
 
 //run post and get responses
 app.use('/intelliq_api/user',user);
-app.use('/intelliq_api/survey',survey);
+app.use('/intelliq_api/questionnaire',survey);
 app.use('/intelliq_api/admin',admin);
 app.use('/intelliq_api/institution',institution);
 app.use('/intelliq_api/question',question);

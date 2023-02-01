@@ -1,9 +1,9 @@
 const { json } = require("express");
 const express = require("express");
 const { default: mongoose } = require("mongoose");
-const surveyModel = require('../models/survey');
+const surveyModel = require('../models/questionnaire');
 const app = express.Router();
-const surveyController = require('../controllers/survey');
+const surveyController = require('../controllers/questionnaire.');
 //get request
 app.get('/',surveyController.getSurvey);
 
