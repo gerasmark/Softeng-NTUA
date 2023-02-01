@@ -68,8 +68,8 @@ const Survey = mongoose.model('Survey', surveySchema);
 const Question = mongoose.model('Question', questionSchema);
 const Answer = mongoose.model('Answer', answerSchema);
 
-module.exports = Admin
-module.exports = Institution
-module.exports = Survey
-module.exports = Question
-module.exports = Answer
+//module.exports = Admin
+//module.exports = Institution
+//module.exports = Survey
+//module.exports = Question
+//module.exports = Answer
