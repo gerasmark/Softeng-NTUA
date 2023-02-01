@@ -1,7 +1,7 @@
 import axios from 'axios';
-const url = 'http://localhost:3000/post/user/';
-const url1 = 'http://localhost:3000/post/admin/';
-const url2 = 'http://localhost:3000/post/institution/';
+const url = 'http://localhost:9103/post/user/';
+const url1 = 'http://localhost:9103/post/admin/';
+const url2 = 'http://localhost:9103/post/institution/';
 
 class postService {
     static getuser(){

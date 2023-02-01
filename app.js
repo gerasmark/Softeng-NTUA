@@ -1,11 +1,11 @@
 //create mongo database
-require('./data/models/connect.js')
-const question = require('./data/routes/questionpost.js')
-const user = require('./data/routes/userpost.js')
-const admin = require('./data/routes/adminpost.js')
-const institution = require('./data/routes/institutionpost.js')
-const answer = require('./data/routes/answerpost.js')
-const survey = require('./data/routes/surveypost.js')
+require('./api-backend/models/connect.js')
+const question = require('./api-backend/routes/question.js')
+const user = require('./api-backend/routes/user.js')
+const admin = require('./api-backend/routes/admin.js')
+const institution = require('./api-backend/routes/institution.js')
+const answer = require('./api-backend/routes/answer.js')
+const survey = require('./api-backend/routes/survey.js')
 
 const bodyParser = require('body-parser')
 const cors = require('cors')
@@ -23,12 +23,12 @@ app.use(cors())
 
 
 //run post and get responses
-app.use('/post/user',user);
-app.use('/post/survey',survey);
-app.use('/post/admin',admin);
-app.use('/post/institution',institution);
-app.use('/post/question',question);
-app.use('/post/answer',answer);
+app.use('/intelliq_api/user',user);
+app.use('/intelliq_api/survey',survey);
+app.use('/intelliq_api/admin',admin);
+app.use('/intelliq_api/institution',institution);
+app.use('/intelliq_api/question',question);
+app.use('/intelliq_api/answer',answer);
 app.get('/hello', (req, res) => {
     res.send('Hello');
 });
