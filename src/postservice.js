@@ -1,6 +1,6 @@
 import axios from 'axios';
 const url = 'http://localhost:9103/intelliq_api/user/';
-const url1 = 'http://localhost:9103/intelliq_api/admin/';
+const url1 = 'http://localhost:9103/intelliq_api/adminpage/';
 const url2 = 'http://localhost:9103/intelliq_api/institution/';
 
 class postService {

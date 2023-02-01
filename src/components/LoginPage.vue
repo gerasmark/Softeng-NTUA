@@ -40,7 +40,7 @@
                         <v-card-item v-if="selectedValue === 'Institution'" class="bg-indigo-lighten-5" >
                             <v-select
                                     :items="institutions"
-                                    label="Select a user"
+                                    label="Select an Institution "
                             ></v-select>
                         </v-card-item>
                         <v-card-item v-if=" selectedValue !== ''">
@@ -68,7 +68,10 @@
 
 <script>
 import {options} from "axios";
-import postService from '../postservice';
+import requests from '../requests';
+const adminPage = 'http://localhost:9103/intelliq_api/adminpage/';
+const institutionPage = 'http://localhost:9103/intelliq_api/institution/';
+
 export default {
     name: "loginPage",
     data: () => ({
@@ -81,8 +84,8 @@ export default {
     }),
     async created() {
         try{
-            this.admins = await postService.getadmin();
-            this.institutions = await postService.getinstitution();
+            this.admins = await requests.get(adminPage);
+            this.institutions = await requests.get(institutionPage);
         }catch (error) {
             reject(error);
         }
