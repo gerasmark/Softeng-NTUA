@@ -5,6 +5,8 @@ const questionnaire = require('../models/questionnaire');
 const { default: mongoose } = require("mongoose");
 require('../../app.js');
 const answerModel = require('../models/answer');
+const userModel = require('../models/user');
+
 exports.healthCheck = (req, res) => {
     const url = 'mongodb+srv://gerasimos:gerasimos@nodeexpress.xtecm6k.mongodb.net/survey?retryWrites=true&w=majority';
     const db = Number(mongoose.connection.readyState);
@@ -12,7 +14,27 @@ exports.healthCheck = (req, res) => {
     else { res.json( {"status":"failed", "dbconnection":[url]});}
 }
 exports.resetAll = (req, res) => {
-
+    answerModel.deleteMany({}, (error) => {
+        if (error) {
+            res.json({"status":"failed", "reason":error});
+        } else {
+            res.json({"status":"OK"});
+        }
+    }),
+            userModel.deleteMany({}, (error) => {
+                if (error) {
+                    res.json({"status":"failed", "reason":error});
+                } else {
+                    res.json({"status":"OK"});
+                }
+            }),
+            questionnaire.deleteMany({}, (error) => {
+                if (error) {
+                    res.json({"status":"failed", "reason":error});
+                } else {
+                    res.json({"status":"OK"});
+                }
+    })
 }
 exports.questionnaire_upd = (req, res) => {          //find fields
     const field1 = req.body.field1;
