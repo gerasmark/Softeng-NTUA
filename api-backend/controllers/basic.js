@@ -9,7 +9,8 @@ const userModel = require('../models/user');
 const surveyModel = require("../models/questionnaire");
 
 exports.getQuestionnaire = async (req, res) => {
-    res.send(await questionnaireModel.find({}));
+    const id = req.params.questionnaireID;
+    res.send(await questionnaireModel.find({questionnaireID:id}));
 }
 exports.getQuestionnaireQuestion = async (req, res) => {
 
