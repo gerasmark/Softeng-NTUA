@@ -2,6 +2,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LoginPage from '../components/LoginPage.vue'
 import Postuser from '../components/Postuser.vue'
+import UserSurveys from '../components/UserSurveys.vue'
 import Admin from '../components/Admin.vue'
 
 // @ts-ignore
@@ -9,7 +10,7 @@ import Admin from '../components/Admin.vue'
 // @ts-ignore
 const routes = [
     {
-        path: '/login',
+        path: '/',
         name: 'LoginPage',
         component: LoginPage
     },
@@ -19,7 +20,12 @@ const routes = [
         component: Postuser
     },
     {
-        path: '/admin',
+        path: '/usersurveys',
+        name: 'UserSurveys',
+        component: UserSurveys
+    },
+    {
+        path: '/adminpage',
         name: 'Admin',
         component: Admin
     }
