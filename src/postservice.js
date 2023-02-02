@@ -39,8 +39,8 @@ class postService {
             }
         })
     }
-    static insertuser(text) {
-        return axios.post(url,{text});
+    static insertuser(url, text, callback) {
+        return axios.post(url,{text}, callback);
     }
 
 }

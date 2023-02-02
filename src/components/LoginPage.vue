@@ -71,6 +71,7 @@ import {options} from "axios";
 import requests from '../requests';
 const adminPage = 'http://localhost:9103/intelliq_api/adminpage/';
 const institutionPage = 'http://localhost:9103/intelliq_api/institution/';
+const url3 = 'http://localhost:9103/intelliq_api/user/postUser';
 
 export default {
     name: "loginPage",
@@ -91,8 +92,19 @@ export default {
         }
     },
     methods: {
-        login(){
+        login() {
+            if (this.selectedValue === 'User') {
+                var loginUserObj = {
+                    name: ''
+                }
+                requests.post(url3, loginUserObj, this.loginCallBackUser);
+            }
+        },
 
+
+        loginCallBackUser(response) {
+            this.$router.push({path: '/homePageUser'});
+            console.log(response);
         }
     }
 }
