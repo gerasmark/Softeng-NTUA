@@ -1,10 +1,15 @@
 const { json } = require("express");
 const express = require("express");
 const multer = require('multer');
-const questionnaire = require('../models/questionnaire');
+const questionnaireModel = require('../models/questionnaire');
 const { default: mongoose } = require("mongoose");
 require('../../app.js');
 const answerModel = require('../models/answer');
+const fs = require('fs');
+
+
+
+
 exports.healthCheck = (req, res) => {
     const url = 'mongodb+srv://gerasimos:gerasimos@nodeexpress.xtecm6k.mongodb.net/survey?retryWrites=true&w=majority';
     const db = Number(mongoose.connection.readyState);
@@ -14,23 +19,25 @@ exports.healthCheck = (req, res) => {
 exports.resetAll = (req, res) => {
 
 }
-exports.questionnaire_upd = (req, res) => {          //find fields
-    const field1 = req.body.field1;
-    const field2 = req.body.field2;
-    const files = req.files;
-    // Insert the received data into the database
-    // (You would need to implement this part, which is specific to your database)
-    questionnaire.insertMany({
-        questionnaireID: field1,
-        questionnaireTitle:field2,
-        files: files
-    }).then(r => {res.send({ status: 'success' }); })
 
-    res.send({ status: 'success' });
+exports.questionnaire_upd = async (req, res) => {          //find fields
+    const file= req.file;
+    const fileData = fs.readFileSync(file.path);
+    const data = JSON.parse(fileData);
 
-    //console.log(req.body);
-    console.log(req.files);
+    const questionnaire = new questionnaireModel(data);
+    try {
+        await questionnaire.save();
+        res.status(201).send(questionnaire);
+    }catch(error) {
+        res.status(500).send(error);
+    }
+
+    console.log("Document inserted successfully");
+
 }
+
+
 exports.resetq = (req, res) => {
     answerModel.deleteMany({  questionnaireID: req.params.questionnaireID }, (error) => {
         if (error) {
