@@ -11,7 +11,7 @@ const answerSchema = new Schema({
       type: String
     }}],
     session: {
-      type: String
+      type: String ,required: true, maxLength: 4
     }}
         //session =name tou user
     , {

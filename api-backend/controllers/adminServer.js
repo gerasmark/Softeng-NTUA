@@ -57,9 +57,9 @@ exports.resetq = (req, res) => {
     const id = req.params.id;
     questionnaire.deleteMany({  questionnaireID: id  }, (error) => {
         if (error) {
-            res.json({"status":"failed", "reason":error,"question":req.params.id});
+            res.json({"status":"failed", "reason":error});
         } else {
-            res.json({"status":"OK", "question":req.params.id});
+            res.json({"status":"OK"});
         }
     });
 
