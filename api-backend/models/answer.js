@@ -3,16 +3,17 @@ const Schema = mongoose.Schema;
 const answerSchema = new Schema({
             questionnaireID: { type: String, required: true },
     answers: [{
-    optID: {
+    ans: {
+        //ans=optId
       type: String
     },
     qID: {
       type: String
     }}],
-    user: {
-      type: Schema.Types.ObjectId,
-      ref: 'User'
+    session: {
+      type: String
     }}
+        //session =name tou user
     , {
       versionKey: false
   });
