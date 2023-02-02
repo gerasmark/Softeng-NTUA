@@ -11,3 +11,9 @@ const surveyModel = require("../models/questionnaire");
 exports.getQuestionnaire = async (req, res) => {
     res.send(await questionnaireModel.find({}));
 }
+exports.getQuestionnaireQuestion = async (req, res) => {
+
+}
+exports.postQuestionnaire = async (req, res) => {
+
+}
