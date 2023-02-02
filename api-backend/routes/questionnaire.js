@@ -9,4 +9,4 @@ app.get('/',surveyController.getSurvey);
 
   module.exports = app;
 // post request
-app.post('/', surveyController.postSurvey);
+app.post('/postQuestionnaire', surveyController.postSurvey);

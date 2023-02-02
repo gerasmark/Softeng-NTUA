@@ -9,4 +9,4 @@ app.get('/', userController.getUser);
 
   module.exports = app;
 // post request
-app.post('/', userController.postUser);
+app.post('/postUser', userController.postUser);
