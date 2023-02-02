@@ -28,6 +28,11 @@ const routes = [
         component: Postuser
     },
     {
+        path: '/admin',
+        name: 'Admin',
+        component: Admin
+    },
+    {
         path: '/usersurveys',
         name: 'UserSurveys',
         component: UserSurveys
@@ -41,6 +46,11 @@ const routes = [
         path: '/homePageUser',
         name: 'Postuser',
         component: PostUser
+    }
+    {
+        path: '/usersurveys',
+        name: 'UserSurveys',
+        component: UserSurveys
     }
 ]
 const router = createRouter({

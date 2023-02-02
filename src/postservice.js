@@ -2,7 +2,8 @@ import axios from 'axios';
 const url = 'http://localhost:9103/intelliq_api/user/';
 const url1 = 'http://localhost:9103/intelliq_api/adminpage/';
 const url2 = 'http://localhost:9103/intelliq_api/institution/';
-const url3 = 'http://localhost:9103/intelliq_api/usersurveys/';
+const url3 = 'http://localhost:9103/intelliq_api/questionnaire/';
+
 
 class postService {
     static getuser(){
@@ -28,13 +29,16 @@ class postService {
             }
         })
     }
+
     static getsurveys(){
         return new Promise(async (resolve, reject) => {
             try {
                 const res = await axios.get(url3);
                 const data = res.data;
-                const names = data.map(doc => doc.name)
-                resolve(names);
+                const surveys = data.map(doc => ({ name: doc.questionnaireTitle, id: doc._id }))
+
+                resolve(surveys);
+
             } catch (error) {
                 reject(error);
             }
