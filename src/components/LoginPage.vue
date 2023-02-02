@@ -69,9 +69,8 @@
 <script>
 import {options} from "axios";
 import requests from '../requests';
-const adminPage = 'http://localhost:9103/intelliq_api/adminpage/';
-const institutionPage = 'http://localhost:9103/intelliq_api/institution/';
-const url3 = 'http://localhost:9103/intelliq_api/user/postUser';
+export const BASE_URL = 'http://localhost:9103/intelliq_api' ;
+
 
 export default {
     name: "loginPage",
@@ -85,8 +84,8 @@ export default {
     }),
     async created() {
         try{
-            this.admins = await requests.get(adminPage);
-            this.institutions = await requests.get(institutionPage);
+            this.admins = await requests.get(BASE_URL + '/adminPage/');
+            this.institutions = await requests.get(BASE_URL +'/institution/');
         }catch (error) {
             reject(error);
         }
@@ -97,7 +96,7 @@ export default {
                 var loginUserObj = {
                     name: ''
                 }
-                requests.post(url3, loginUserObj, this.loginCallBackUser);
+                requests.post(BASE_URL +'/user/postUser/', loginUserObj, this.loginCallBackUser);
             }
         },
 

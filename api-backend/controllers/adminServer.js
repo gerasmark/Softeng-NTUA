@@ -1,5 +1,7 @@
 const { json } = require("express");
 const express = require("express");
+const multer = require('multer');
+const questionnaire = require('../models/questionnaire');
 const { default: mongoose } = require("mongoose");
 require('../../app.js');
 const answerModel = require('../models/answer');
@@ -12,8 +14,22 @@ exports.healthCheck = (req, res) => {
 exports.resetAll = (req, res) => {
 
 }
-exports.questionnaire_upd = (req, res) => {
+exports.questionnaire_upd = (req, res) => {          //find fields
+    const field1 = req.body.field1;
+    const field2 = req.body.field2;
+    const files = req.files;
+    // Insert the received data into the database
+    // (You would need to implement this part, which is specific to your database)
+    questionnaire.insertMany({
+        questionnaireID: field1,
+        questionnaireTitle:field2,
+        files: files
+    }).then(r => {res.send({ status: 'success' }); })
 
+    res.send({ status: 'success' });
+
+    //console.log(req.body);
+    console.log(req.files);
 }
 exports.resetq = (req, res) => {
     answerModel.deleteMany({  questionnaireID: req.params.questionnaireID }, (error) => {
