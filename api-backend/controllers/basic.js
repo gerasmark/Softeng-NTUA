@@ -10,10 +10,19 @@ const surveyModel = require("../models/questionnaire");
 
 exports.getQuestionnaire = async (req, res) => {
     const id = req.params.questionnaireID;
-    res.send(await questionnaireModel.find({questionnaireID:id}));
+    res.send(await questionnaireModel.find({questionnaireID:id},{'questions._id':0,'questions.options._id':0}).select('-_id'));
 }
 exports.getQuestionnaireQuestion = async (req, res) => {
-
+    const id1 = req.params.questionnaireID;
+    const id2 = req.params.questionID;
+    //data = questionnaireModel.find({"questions.qID":id2, questionnaireID:id1}).select('questions');
+    data = questionnaireModel.find({questionnaireID:id1},{questions: { $elemMatch: {qID:id2}}});
+    //returns everything except questionnaireID
+    //console.log(data)
+    data2=questionnaireModel.find({questionnaireID:id1}).select('questionnaireID');
+    //this is questionnaireID, which is not returned for now
+    res.send(await data);
+    //i need to merge those two
 }
 exports.postQuestionnaire =  async (req, res) => {
     const questionnaireID = req.params.questionnaireID;
@@ -43,7 +52,7 @@ exports.postQuestionnaire =  async (req, res) => {
 exports.getSessionAnswers = async (req, res) => {
     const id = req.params.questionnaireID;
     const ses = req.params.session;
-    res.send(await answerModel.find({questionnaireID:id, session:ses}).select('-_id'));
+    res.send(await answerModel.find({questionnaireID:id, session:ses},{'answers._id':0}).select('-_id'));
 }
 exports.getQuestionAnswers = async (req, res) => {
     const id1 = req.params.questionnaireID;
