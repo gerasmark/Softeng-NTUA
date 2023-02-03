@@ -15,24 +15,30 @@ exports.getQuestionnaire = async (req, res) => {
 exports.getQuestionnaireQuestion = async (req, res) => {
 
 }
-exports.postQuestionnaire = async (req, res) => {
+exports.postQuestionnaire =  async (req, res) => {
     const questionnaireID = req.params.questionnaireID;
     const questionID = req.params.questionID;
     const session = req.params.session;
     const optionID = req.params.optionID;
-    //res.send( await answerModel.find({ session:session,questionnaireID:questionnaireID},{answers: { $elemMatch: { qID:questionID}}}));
-    await answerModel.findOneAndUpdate({ session:session,questionnaireID:questionnaireID,"answers.qID":questionID}, {$set: {'answers.1.ans':optionID}},{ new: true }, function (err, result) {
-        if (err) {res.send({ status: "fail",r:err,re:result});}
-        else {res.send({ status: "success" ,re:result });}
-    });
-    // await answerModel.find({questionnaireID:questionnaireID,session:session },{ "answers": { "$elemMatch": { "qID": questionID } },"session":1},function(err, results) {
-    //     if (err) throw err;
-    //     const answers = results.map(function(result) {
-    //         return result.answers[0];
-    //     });
-    //     res.send({"questionnaireID":questionnaireID,"qID":questionID,answers});
-    // });
-
+    await answerModel.find({
+    session:session,questionnaireID:questionnaireID
+    }).then(result => {
+        if(result.length == 0) {
+            const answer = new answerModel({
+                questionnaireID: questionnaireID,
+                session:session,
+                answers:[]
+            });
+            answer.save();
+        }
+    })
+    try {
+    const answer = await answerModel.findOneAndUpdate({ session:session,questionnaireID:questionnaireID }, { $push: { answers: { ans:optionID,qID:questionID } } }, { new: true }).exec();
+    console.log(answer);
+    res.send("Success");}
+    catch(err) {
+        res.send("fail");
+    }
 }
 exports.getSessionAnswers = async (req, res) => {
     const id = req.params.questionnaireID;
