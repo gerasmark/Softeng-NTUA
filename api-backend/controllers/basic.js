@@ -15,7 +15,7 @@ exports.getQuestionnaire = async (req, res) => {
 exports.getQuestionnaireQuestion = async (req, res) => {
     const id1 = req.params.questionnaireID;
     const id2 = req.params.questionID;
-        const results = await questionnaireModel.find({questionnaireID:id1 },{"questions": { "$elemMatch": {"qID":id2}}}).exec();
+        const results = await questionnaireModel.find({questionnaireID:id1,"questions.qID":id2 },{"questions": { "$elemMatch": {"qID":id2}}}).exec();
         const question = results.map(function(result) {
                 return {
                     qtext:result.questions[0].qtext,
