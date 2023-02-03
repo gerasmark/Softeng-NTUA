@@ -60,21 +60,7 @@ exports.getSessionAnswers = async (req, res) => {
     const ses = req.params.session;
     res.send(await answerModel.find({questionnaireID:id, session:ses},{'answers._id':0}).select('-_id'));
 }
-// exports.getQuestionAnswers = async (req, res) => {
-//     const id1 = req.params.questionnaireID;
-//     const id2 = req.params.questionID;
-//     await answerModel.find({questionnaireID:id1 },{ "answers": { "$elemMatch": { "qID": id2 } },"session":1},function(err, results) {
-//         if (err) throw err;
-//         const answers = results.map(function(result) {
-//             return {
-//                 ans:result.answers[0].ans,
-//                 session:result.session
-//             };
-//         });
-//         res.send({"questionnaireID":id1,"qID":id2,answers});
-//     });
-//     //res.send(await answerModel.find({questionnaireID:id1 },{ "answers": { "$elemMatch": { "qID": "Q09" } },"session":1 }));
-// }
+
 exports.getQuestionAnswers = async (req, res) => {
     const id1 = req.params.questionnaireID;
     const id2 = req.params.questionID;
