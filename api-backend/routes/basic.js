@@ -10,5 +10,8 @@ const upload = multer({ dest: 'uploads/'});
 app.get('/questionnaire/:questionnaireID', basicController.getQuestionnaire);
 app.get('/question/:questionnaireID/:questionID', basicController.getQuestionnaireQuestion);
 app.post('/doanswer/:questionnaireID/:questionID/:session/:optionID', basicController.postQuestionnaire);
+app.get('/getsessionanswers/:questionnaireID/:session', basicController.getSessionAnswers);
+app.get('/getquestionanswers/:questionnaireID/:questionID', basicController.getQuestionAnswers);
+
 
 module.exports = app;
