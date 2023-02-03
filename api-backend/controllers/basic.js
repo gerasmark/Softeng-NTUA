@@ -15,15 +15,19 @@ exports.getQuestionnaire = async (req, res) => {
 exports.getQuestionnaireQuestion = async (req, res) => {
     const id1 = req.params.questionnaireID;
     const id2 = req.params.questionID;
-    // const data =  await questionnaireModel.find({questionnaireID:id1},{"questions": { "$elemMatch": {"qID":id2}}});
-    // res.send( data);
-    await questionnaireModel.find({questionnaireID:id1 },{ "questions": { "$elemMatch": { "qID": id2 } }},function(err, results) {
-        if (err) throw err;
-        const question = results.map(function (result) {
-            return result.questions[0];
+        const results = await questionnaireModel.find({questionnaireID:id1 },{"questions": { "$elemMatch": {"qID":id2}}}).exec();
+        const question = results.map(function(result) {
+                return {
+                    qtext:result.questions[0].qtext,
+                    required:result.questions[0].required,
+                    type:result.questions[0].type,
+                    options:result.questions[0].options,
+                };
         });
-        res.send({"questionnaireID": id1, "qID": id2, question});
-    });
+        //const question2 = question.find({ },{'questions.options._id':0}).exec();
+        res.send({"questionnaireID":id1,"qID":id2,question});
+
+
 }
 //,'questions._id':0,'questions.options._id':0
 exports.postQuestionnaire =  async (req, res) => {
@@ -56,18 +60,32 @@ exports.getSessionAnswers = async (req, res) => {
     const ses = req.params.session;
     res.send(await answerModel.find({questionnaireID:id, session:ses},{'answers._id':0}).select('-_id'));
 }
+// exports.getQuestionAnswers = async (req, res) => {
+//     const id1 = req.params.questionnaireID;
+//     const id2 = req.params.questionID;
+//     await answerModel.find({questionnaireID:id1 },{ "answers": { "$elemMatch": { "qID": id2 } },"session":1},function(err, results) {
+//         if (err) throw err;
+//         const answers = results.map(function(result) {
+//             return {
+//                 ans:result.answers[0].ans,
+//                 session:result.session
+//             };
+//         });
+//         res.send({"questionnaireID":id1,"qID":id2,answers});
+//     });
+//     //res.send(await answerModel.find({questionnaireID:id1 },{ "answers": { "$elemMatch": { "qID": "Q09" } },"session":1 }));
+// }
 exports.getQuestionAnswers = async (req, res) => {
     const id1 = req.params.questionnaireID;
     const id2 = req.params.questionID;
-    await answerModel.find({questionnaireID:id1 },{ "answers": { "$elemMatch": { "qID": id2 } },"session":1},function(err, results) {
-        if (err) throw err;
-        const answers = results.map(function(result) {
-            return {
-                ans:result.answers[0].ans,
-                session:result.session
-            };
+        const results = await answerModel.find({questionnaireID:id1 ,"answers.qID":id2},{ "answers": { "$elemMatch": { "qID": id2 } },"session":1 }).exec();
+        const answer = results.map(function(result) {
+
+                return {
+                    ans:result.answers[0].ans,
+                    session:result.session
+                };
+
         });
-        res.send({"questionnaireID":id1,"qID":id2,answers});
-    });
-    //res.send(await answerModel.find({questionnaireID:id1 },{ "answers": { "$elemMatch": { "qID": "Q09" } },"session":1 }));
+        res.send({"questionnaireID":id1,"qID":id2,answer});
 }
