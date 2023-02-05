@@ -10,7 +10,7 @@ const upload = multer({ dest: 'uploads/'});   // storage: storage
 
 app.get('/healthcheck', adminController.healthCheck);
 app.post('/resetall', adminController.resetAll);
-app.post('/resetq/:questionnaireID', adminController.resetq);
+app.post('/resetq/:id', adminController.resetq);
 
 app.post('/questionnaire_upd', upload.any(), adminController.questionnaire_upd);
 module.exports = app;

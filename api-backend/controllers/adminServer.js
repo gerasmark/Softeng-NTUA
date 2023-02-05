@@ -54,7 +54,8 @@ exports.questionnaire_upd = (req, res) => {          //find fields
     console.log(req.files);
 }
 exports.resetq = (req, res) => {
-    answerModel.deleteMany({  questionnaireID: req.params.questionnaireID }, (error) => {
+    const id = req.params.id;
+    questionnaire.deleteMany({  questionnaireID: id  }, (error) => {
         if (error) {
             res.json({"status":"failed", "reason":error});
         } else {

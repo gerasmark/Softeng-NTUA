@@ -7,7 +7,7 @@ const institution = require('./api-backend/routes/institution.js')
 const answer = require('./api-backend/routes/answer.js')
 const survey = require('./api-backend/routes/questionnaire.js')
 const adminServer = require('./api-backend/routes/adminServer.js')
-
+const basic = require('./api-backend/routes/basic.js')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const express = require('express');
@@ -31,6 +31,7 @@ app.use('/intelliq_api/institution',institution);
 app.use('/intelliq_api/question',question);
 app.use('/intelliq_api/answer',answer);
 app.use('/intelliq_api/admin',adminServer);
+app.use('/intelliq_api',basic);
 app.get('/hello', (req, res) => {
     res.send('Hello');
 });
