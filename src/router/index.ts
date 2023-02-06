@@ -2,7 +2,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LoginPage from '../components/LoginPage.vue'
 import Postuser from '../components/Postuser.vue'
-import UserSurveys from '../components/UserSurveys.vue'
+import UserSurveys from '../components/UserQuestionnaires.vue'
 import Admin from '../components/Admin.vue'
 import PostUser from '../components/Postuser.vue'
 import Questionnarie from '../components/UploadQuestionnarie.vue'
@@ -32,6 +32,7 @@ const routes = [
         name: 'UserSurveys',
         component: UserSurveys
     },
+
     {
         path: '/adminpage',
         name: 'Admin',

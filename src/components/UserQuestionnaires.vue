@@ -7,7 +7,6 @@
         </v-app-bar>
 
 
-
         <v-container class="text-center">
             <v-row class="my-5">
                 <v-col
@@ -16,35 +15,27 @@
                     <v-card >
                         <v-card-title class="title font-weight-bold">
                             <v-btn :to="`/usersurveys/${survey.id}`">{{ survey.name }}</v-btn>
-
                         </v-card-title>
-
-
                     </v-card>
                 </v-col>
             </v-row>
         </v-container>
-
     </v-app>
 </template>
 
 <script>
-import {options} from "axios";
 import postService from '../postservice';
-import {id} from "vuetify/locale";
 
 export default {
     name: "UserSurveys",
     data() {
         return {
             surveys:[]
-
         };
     },
     async created() {
         try {
             this.surveys= await postService.getsurveys();
-
         } catch (error) {
             console.error(error);
         }
