@@ -5,7 +5,7 @@ const axios = require('axios');
 const https = require('https');
 
 module.exports = function(o) {
-    var url = constructURL('/admin/', 'healthcheck');
+    var url = constructURL('/healthcheck/');
     var config = {
         method: 'get',
         url: url,

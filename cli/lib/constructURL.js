@@ -1,23 +1,33 @@
-module.exports = function (scope, param1, param2, param3, format, apikey) {
-    let base = 'https://localhost:8765/evcharge/api';
-    // create url with scope
-    base = base + scope;
+module.exports = function (scope, param1, param2, param3, param4, format) {
+    let base = 'https://localhost:9103/intelliq_api';
 
-    // create url for SessionsPerPoint, SessionsPerStation, SessionsPerEV, SessionsPerProvider
-    if (scope === '/SessionsPerPoint/' || scope === '/SessionsPerStation/' || scope === '/SessionsPerEV/' || scope === '/SessionsPerProvider/') {
-        base = base + param1 + '/' + param2 + '/' + param3 + '?format=' + format;
+    if (scope === '/resetq/') {
+        base = base + scope + param1 + '?format=' + format;
     }
-    // create url for Admin scope
-    // healthcheck 
-    // resetsessions
-    // usermod /admin/usermod/param1/param2 -> param1 = usermod, param2 = username, param3 = password
-    // users
-    // sessionsupd /admin/system/sessionsupd/
-    else if (scope === '/admin/') {
-        if (param1 === 'sessionsupd') base = base + 'system/' + param1;
-        else if (param1 === 'usermod') base = base + param1 + '/' + param2 + '/' + param3 + '?isAdministrator=' + format;
-        else if (param1 === 'users') base = base + param1 + '/' + param2 + '?isAdministrator=' + param3;
-        else base = base + param1;
+
+    else if (scope === '/questionnaire/') {
+        base = base + scope + param1 + '?format=' + format;
     }
+
+    else if (scope === '/question/') {
+        base = base + scope + param1 + '/' + param2 + '?format=' + format;
+    }
+
+    else if (scope === '/doanswer/') {
+        base = base + scope + param1 + '/' + param2 + '/' + param3 + '/' + param4 + '?format=' + format;
+    }
+
+    else if (scope === '/getsessionanswers/') {
+        base = base + scope + param1 + '/' + param2 + '?format=' + format;
+    }
+
+    else if (scope === '/getquestionanswers/') {
+        base = base + scope + param1 + '/' + param2 + '?format=' + format;
+    }
+
+    else if (scope === '/healthcheck/' || '/resetall/') {
+        base = base + '/admin' + scope;
+    }
+
     return base;
 }
