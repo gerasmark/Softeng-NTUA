@@ -6,6 +6,7 @@ import UserSurveys from '../components/UserQuestionnaires.vue'
 import Admin from '../components/Admin.vue'
 import PostUser from '../components/Postuser.vue'
 import Questionnarie from '../components/UploadQuestionnarie.vue'
+import SurveyDetail from '../components/SurveyDetail.vue'
 import App from '../components/App.vue'
 
 // @ts-ignore
@@ -28,11 +29,15 @@ const routes = [
         component: Postuser
     },
     {
+        path: '/admin',
+        name: 'Admin',
+        component: Admin
+    },
+    {
         path: '/usersurveys',
         name: 'UserSurveys',
         component: UserSurveys
     },
-
     {
         path: '/adminpage',
         name: 'Admin',
@@ -42,6 +47,11 @@ const routes = [
         path: '/homePageUser',
         name: 'Postuser',
         component: PostUser
+    }
+    {
+        path: '/usersurveys',
+        name: 'UserSurveys',
+        component: UserSurveys
     }
 ]
 const router = createRouter({
