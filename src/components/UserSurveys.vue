@@ -14,10 +14,9 @@
                         v-for="survey in surveys"
                 >
                     <v-card >
-                        <v-card-title class="title font-weight-bold">
-                            <v-btn :to="`/usersurveys/${survey.id}`">{{ survey.name }}</v-btn>
-
-                        </v-card-title>
+                        <v-list-item-content>
+                    <v-btn @click="goToSurvey(survey._id)">{{ survey.name }} </v-btn>
+                </v-list-item-content>
 
 
                     </v-card>
@@ -49,5 +48,12 @@ export default {
             console.error(error);
         }
     },
-};
+
+
+methods: {
+            goToSurvey(id) {
+                this.$router.push({ name: 'SurveyDetail', params: { id } });
+            },
+        },
+    };
 </script>
