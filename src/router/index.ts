@@ -1,5 +1,6 @@
 // @ts-ignore
 import { createRouter, createWebHistory } from 'vue-router'
+
 import LoginPage from '../components/LoginPage.vue'
 import Postuser from '../components/Postuser.vue'
 import UserSurveys from '../components/UserQuestionnaires.vue'
@@ -47,18 +48,20 @@ const routes = [
         path: '/homePageUser',
         name: 'Postuser',
         component: PostUser
-    }
+    },
     {
-        path: '/usersurveys',
-        name: 'UserSurveys',
-        component: UserSurveys
-    }
+        path: '/usersurveys/:id',
+        name: 'SurveyDetail',
+        component: SurveyDetail
+    },
+
 ]
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     //import.meta
     routes
 })
+
 export default router
 
 

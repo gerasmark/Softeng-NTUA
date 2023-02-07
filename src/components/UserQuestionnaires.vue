@@ -15,8 +15,8 @@
                 >
                     <v-card >
                         <v-list-item-content>
-                    <v-btn @click="goToSurvey(survey._id)">{{ survey.name }} </v-btn>
-                </v-list-item-content>
+                    <v-btn @click="goToSurvey(survey.id)">{{ survey.name }} </v-btn>
+                        </v-list-item-content>
 
 
                     </v-card>
@@ -30,7 +30,8 @@
 <script>
 import {options} from "axios";
 import postService from '../postservice';
-import {id} from "vuetify/locale";
+import  router  from "../router/index.ts";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
     name: "UserSurveys",
@@ -51,9 +52,13 @@ export default {
 
 
 methods: {
+    ...mapActions([]),
             goToSurvey(id) {
                 this.$router.push({ name: 'SurveyDetail', params: { id } });
             },
         },
+    computed: {
+        ...mapGetters([])
+    }
     };
 </script>

@@ -34,7 +34,7 @@ class postService {
             try {
                 const res = await axios.get(url3);
                 const data = res.data;
-                const surveys = data.map(doc => ({ name: doc.questionnaireTitle, id: doc._id }))
+                const surveys = data.map(doc => ({ name: doc.questionnaireTitle, id: doc._id, questions: doc.questions }))
 
                 resolve(surveys);
 
