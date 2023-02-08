@@ -6,17 +6,31 @@ const https = require('https');
 
 module.exports = function(o) {
     var url = constructURL('/healthcheck/');
-    var config = {
-        method: 'get',
-        url: url,
-        httpsAgent: new https.Agent({ rejectUnauthorized: false })
-    };
-    axios(config)
-    .then(res => {
-        console.log(chalk.green('Connection status with database: ' + res.data.status))
-    })
-    .catch(err => {
-        errorHandler(err);
-    })
-    
+    // var config = {
+    //     method: 'get',
+    //     url: url,
+    //     httpsAgent: new https.Agent({ rejectUnauthorized: false })
+    // };
+    // axios(config)
+    //     .then(res => {
+    //         console.log(chalk.green('Connection status with database: ' + res.data.status))
+    // })
+    //     .catch(err => {
+    //         errorHandler(err);
+    // })
+
+    // const options = {
+    //     method: 'get',
+    //     url: url,
+    // //    httpsAgent: new https.Agent({ rejectUnauthorized: false })
+    // };
+    // axios(options)
+    //     .then((response) => {
+    //         console.log(response.data);
+    //     })
+    //     // .catch(err => {
+    //     //     console.log(err);
+    //     // })
+
+    console.log(chalk.green(url));
 }

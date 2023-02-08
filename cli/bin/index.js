@@ -9,23 +9,15 @@ const figlet = require('figlet');
 
 // functions
 const healthcheck = require('../src/healthcheck');
-// const resetall = require('../src/resetall');
-// const resetq = require('../src/resetq');
-// const questionnaire = require('../src/questionnaire');
-// const questionnaire_upd = require('../src/questionnaire_upd');
-// const question = require('../src/question');
-// const doanswer = require('../src/doanswer');
-// const getsessionanswers = require('../src/getsessionanswers');
-// const getquestionanswers = require('../src/getquestionanswers');
+const resetall = require('../src/resetall');
+const resetq = require('../src/resetq');
+const questionnaire = require('../src/questionnaire');
+//const questionnaire_upd = require('../src/questionnaire_upd');
+const question = require('../src/question');
+const doanswer = require('../src/doanswer');
+const getsessionanswers = require('../src/getsessionanswers');
+const getquestionanswers = require('../src/getquestionanswers');
 // functions
-
-clear();
-
-console.log(
-    chalk.yellow(
-        figlet.textSync('BitsPlease', { horizontalLayout: 'full' })
-    )
-);
 
 
 // healthcheck

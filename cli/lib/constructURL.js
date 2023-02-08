@@ -9,6 +9,10 @@ module.exports = function (scope, param1, param2, param3, param4, format) {
         base = base + scope + param1 + '?format=' + format;
     }
 
+    // else if (scope === '/questionnaire_upd/') {
+        
+    // }
+
     else if (scope === '/question/') {
         base = base + scope + param1 + '/' + param2 + '?format=' + format;
     }

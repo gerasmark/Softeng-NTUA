@@ -7,7 +7,7 @@ const https = require('https');
 
 module.exports = function(o) {
 
-    var url = constructURL('/resetall/');
+    var url = constructURL('/resetq/', param1, format);
 
     // fs.readFile('../cli-client/softeng20bAPI.token', 'utf8', (error, data) => {
     //     if (error){
