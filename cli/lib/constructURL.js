@@ -1,12 +1,12 @@
-module.exports = function (scope, param1, param2, param3, param4, format) {
+module.exports = function (scope, a, b, c, d) {
     let base = 'https://localhost:9103/intelliq_api';
 
     if (scope === '/resetq/') {
-        base = base + scope + param1 + '?format=' + format;
+        base = base + scope + a;
     }
 
     else if (scope === '/questionnaire/') {
-        base = base + scope + param1 + '?format=' + format;
+        base = base + scope + a + '?format=' + b;
     }
 
     // else if (scope === '/questionnaire_upd/') {
@@ -14,19 +14,19 @@ module.exports = function (scope, param1, param2, param3, param4, format) {
     // }
 
     else if (scope === '/question/') {
-        base = base + scope + param1 + '/' + param2 + '?format=' + format;
+        base = base + scope + a + '/' + b + '?format=' + c;
     }
 
     else if (scope === '/doanswer/') {
-        base = base + scope + param1 + '/' + param2 + '/' + param3 + '/' + param4 + '?format=' + format;
+        base = base + scope + a + '/' + b + '/' + c + '/' + d;
     }
 
     else if (scope === '/getsessionanswers/') {
-        base = base + scope + param1 + '/' + param2 + '?format=' + format;
+        base = base + scope + a + '/' + b + '?format=' + c;
     }
 
     else if (scope === '/getquestionanswers/') {
-        base = base + scope + param1 + '/' + param2 + '?format=' + format;
+        base = base + scope + a + '/' + b + '?format=' + c;
     }
 
     else if (scope === '/healthcheck/' || '/resetall/') {

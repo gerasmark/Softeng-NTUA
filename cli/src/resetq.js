@@ -7,30 +7,25 @@ const https = require('https');
 
 module.exports = function(o) {
 
-    var url = constructURL('/resetq/', param1, format);
+    isWrong = false;
+    
+    if (process.argv[3] === undefined){
+        isWrong = true;
+    }
 
-    // fs.readFile('../cli-client/softeng20bAPI.token', 'utf8', (error, data) => {
-    //     if (error){
-    //         console.log(chalk.red('Not authorized user!'))
-    //     }
-    //     else {
-    //         var config = {
-    //             method: 'post',
-    //             url: url,
-    //             headers: {
-    //                 'X-OBSERVATORY-AUTH': data,
-    //                 'Content-Type' :  'multipart/form-data'
-    //             },
-    //             httpsAgent: new https.Agent({ rejectUnauthorized: false })
-    //         };
-    //         axios(config)
-    //         .then(res => console.log(res.data))
-    //         .catch(err => {
-    //             errorHandler(err, 'Reset sessions could not be completed!')
-    //         })
-    //     }
-    // })
+    if (!isWrong) {
+    
+        param1 = process.argv[3];
 
-    console.log(chalk.green(url));
+        var url = constructURL('/resetq/', param1);
+
+        console.log(chalk.green(url));
+        //axios(url);
+    }
+    else {
+        console.log(chalk.red('Error: mandatory parameters omitted\n'));
+        console.log(chalk.yellow('Mandatory Parameters: \n --questionnaire_id [id]'));
+        console.log(chalk.yellow('ex: se2222 resetq questionnaire_id\n'));
+    }
 
 }

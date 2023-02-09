@@ -19,6 +19,7 @@ const getsessionanswers = require('../src/getsessionanswers');
 const getquestionanswers = require('../src/getquestionanswers');
 // functions
 
+//commands with params need the .option() sections
 
 // healthcheck
 commands.command('healthcheck')
@@ -35,42 +36,59 @@ commands.command('resetall')
 // reset q
 commands.command('resetq')
         .description('Resets all answers to specified questionnaire')
+        .option('-q, --questionnaire_id [id]', 'Questionnaire ID')
         .action( function(o) { resetq(o) } )
 // reset q
 
 // questionnaire
 commands.command('questionnaire')
         .description('Returns data and questions of specified questionnaire')
+        .option('-q, --questionnaire_id [id]', 'Questionnaire ID')
+        .option('-f, --format [format]', 'Content-type')
         .action( function(o) { questionnaire(o) } )
 // questionnaire
 
 // questionnaire_upd
 commands.command('questionnaire_upd')
         .description('Uploads a JSON file with data of a new questionnaire')
+        .option('-s, --source [file]', 'Source file')
         .action( function(o) { questionnaire_upd(o) } )
 // questionnaire_upd
 
 // question
 commands.command('question')
         .description('Returns all contents of the specified question from the specified questionnaire')
+        .option('-q, --questionnaire_id [id]', 'Questionnaire ID')
+        .option('-qid, --question_id [id]', 'Question ID')
+        .option('-f, --format [format]', 'Content-type')
         .action( function(o) { question(o) } )
 // question
 
 // doanswer
 commands.command('doanswer')
         .description('Submits the given answer to the specified question of the specified questionnaire')
+        .option('-q, --questionnaire_id [id]', 'Questionnaire ID')
+        .option('-qid, --question_id [id]', 'Question ID')
+        .option('-sid, --session_id [id]', 'Session ID')
+        .option('-oid, --option_id [id]', 'Option ID')
         .action( function(o) { doanswer(o) } )
 // doanswer
 
 // getsessionanswers
 commands.command('getsessionanswers')
         .description('Returns all answers given to the specified questionnaire durion the session')
+        .option('-q, --questionnaire_id [id]', 'Questionnaire ID')
+        .option('-sid, --session_id [id]', 'Session ID')
+        .option('-f, --format [format]', 'Content-type')
         .action( function(o) { getsessionanswers(o) } )
 // getsessionanswers
 
 // getquestionanswers
 commands.command('getquestionanswers')
         .description('Returns all answers given to a specified question of a specified questionnaire')
+        .option('-q, --questionnaire_id [id]', 'Questionnaire ID')
+        .option('-qid, --question_id [id]', 'Question ID')
+        .option('-f, --format [format]', 'Content-type')
         .action( function(o) { getquestionanswers(o) } )
 // getquestionanswers
 

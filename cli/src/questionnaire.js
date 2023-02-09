@@ -7,8 +7,32 @@ const https = require('https');
 
 module.exports = function(o) {
 
-    var url = constructURL('/questionnaire/', param1, format);
+    isWrong = false;
+    
+    if (process.argv[3] === undefined){
+        isWrong = true;
+    }
 
-    console.log(chalk.green(url));
+    if (!isWrong && (process.argv[4] === 'json' || process.argv[4] === undefined)) {
+        format = 'json';
+    }
+    else if (process.argv[4] === 'csv') format = 'csv';
+    else isWrong = true;
+
+    if (!isWrong) {
+    
+        param1 = process.argv[3];
+
+        var url = constructURL('/questionnaire/', param1, format);
+
+        console.log(chalk.green(url));
+        //axios(url);
+    }
+    else {
+        console.log(chalk.red('Error: wrong format or mandatory parameters omitted\n'));
+        console.log(chalk.yellow('Mandatory Parameters: \n --questionnaire_id [id]'));
+        console.log(chalk.yellow('Optional Parameter: \n --format [json | csv] \n'));
+        console.log(chalk.yellow('ex: se2222 questionnaire questionnaire_id json\n'));
+    }
 
 }
