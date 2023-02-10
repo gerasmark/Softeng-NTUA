@@ -7,10 +7,21 @@ require('../../app.js');
 const answerModel = require('../models/answer');
 const userModel = require('../models/user');
 const surveyModel = require("../models/questionnaire");
+const _ = require("lodash");
+const json2csv = require("json2csv").parse;
 
 exports.getQuestionnaire = async (req, res) => {
     const id = req.params.questionnaireID;
-    res.send(await questionnaireModel.find({questionnaireID:id},{'questions._id':0,'questions.options._id':0}).select('-_id'));
+    const data = await questionnaireModel.find({questionnaireID:id},{'questions._id':0,'questions.options._id':0}).select('-_id');
+    const format = req.query.format;
+    if (format ==='csv'){
+        const data1 = data.map(item => item._doc);
+        const csvdata = json2csv(data1);
+        res.setHeader("Content-Type", "text/csv");
+        res.send(csvdata);
+    }
+    else {res.send(data);}
+
 }
 exports.getQuestionnaireQuestion = async (req, res) => {
     const id1 = req.params.questionnaireID;
