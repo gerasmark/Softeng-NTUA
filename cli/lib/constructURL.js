@@ -9,9 +9,9 @@ module.exports = function (scope, a, b, c, d) {
         base = base + scope + a + '?format=' + b;
     }
 
-    // else if (scope === '/questionnaire_upd/') {
-        
-    // }
+    else if (scope === '/questionnaire_upd/') {
+        base = base + scope + a;
+    }
 
     else if (scope === '/question/') {
         base = base + scope + a + '/' + b + '?format=' + c;
