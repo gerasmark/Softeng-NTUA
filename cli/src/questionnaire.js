@@ -5,6 +5,7 @@ const chalk = require('chalk');
 const fs = require('fs');
 const https = require('https');
 
+
 module.exports = function(o) {
 
     isWrong = false;
@@ -24,6 +25,19 @@ module.exports = function(o) {
         param1 = process.argv[3];
 
         var url = constructURL('/questionnaire/', param1, format);
+
+        var config = {
+            method: 'get',
+            url: url,
+            httpsAgent: new https.Agent({ rejectUnauthorized: false })
+        };
+        axios.get(url)
+            .then(res => {
+               console.dir(res.data,{depth:null})
+        })
+            .catch(err => {
+                errorHandler(err);
+        })
 
         console.log(chalk.green(url));
         //axios(url);
