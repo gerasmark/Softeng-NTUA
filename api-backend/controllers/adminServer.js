@@ -1,7 +1,7 @@
 const { json } = require("express");
 const express = require("express");
 const multer = require('multer');
-const questionnaire = require('../models/questionnaire');
+const questionnaireModel = require('../models/questionnaire');
 const { default: mongoose } = require("mongoose");
 require('../../app.js');
 const answerModel = require('../models/answer');
@@ -33,7 +33,7 @@ exports.resetAll = (req, res) => {
                     res.json({"status":"OK"});
                 }
             }),
-            questionnaire.deleteMany({}, (error) => {
+            questionnaireModel.deleteMany({}, (error) => {
                 if (error) {
                     res.json({"status":"failed", "reason":error});
                 } else {
@@ -62,7 +62,7 @@ exports.questionnaire_upd = async (req, res) => {          //find fields
 
 exports.resetq = (req, res) => {
     const id = req.params.id;
-    questionnaire.deleteMany({  questionnaireID: id  }, (error) => {
+    questionnaireModel.deleteMany({  questionnaireID: id  }, (error) => {
         if (error) {
             res.json({"status":"failed", "reason":error});
         } else {
