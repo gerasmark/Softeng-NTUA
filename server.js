@@ -3,9 +3,11 @@ const app = require('./app');
 const https = require("https");
 const fs = require("fs");
 //const chalk = require("chalk");
+const serverkey = fs.readFileSync("./server.key");
+const servercert = fs.readFileSync("./server.cert");
 const options = {
-    key: fs.readFileSync("./server.key"),
-    cert: fs.readFileSync("./server.cert"),
+    key: serverkey,
+    cert: servercert,
 };
 const port = process.env.SERVER_PORT || 9103;
 https.createServer(options, app)
