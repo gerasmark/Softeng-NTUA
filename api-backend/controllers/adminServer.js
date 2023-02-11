@@ -1,65 +1,76 @@
 const { json } = require("express");
 const express = require("express");
 const multer = require('multer');
-const questionnaire = require('../models/questionnaire');
+const questionnaireModel = require('../models/questionnaire');
 const { default: mongoose } = require("mongoose");
 require('../../app.js');
 const answerModel = require('../models/answer');
 const userModel = require('../models/user');
 
+const fs = require('fs');
+
+
+
+
 exports.healthCheck = (req, res) => {
-    const url = 'mongodb+srv://gerasimos:gerasimos@nodeexpress.xtecm6k.mongodb.net/survey?retryWrites=true&w=majority';
-    const db = Number(mongoose.connection.readyState);
-    if (db === 1) { res.json({"status":"OK", "dbconnection":[url]});}
-    else { res.json( {"status":"failed", "dbconnection":[url]});}
+    try {
+        const url = 'mongodb+srv://gerasimos:gerasimos@nodeexpress.xtecm6k.mongodb.net/survey?retryWrites=true&w=majority';
+        const db = Number(mongoose.connection.readyState);
+        if (db === 1) {
+            res.status(200).json({"status": "OK", "dbconnection": [url]});
+        } else {
+            res.status(500).json({"status": "failed", "dbconnection": [url]});
+        }
+    }catch (error) {
+        res.status(500).send();
+    }
 }
 exports.resetAll = (req, res) => {
     answerModel.deleteMany({}, (error) => {
         if (error) {
-            res.json({"status":"failed", "reason":error});
+            res.status(500).json({"status":"failed", "reason":error});
         } else {
-            res.json({"status":"OK"});
+            res.status(200).json({"status":"OK"});
         }
     }),
             userModel.deleteMany({}, (error) => {
                 if (error) {
-                    res.json({"status":"failed", "reason":error});
+                    res.status(500).json({"status":"failed", "reason":error});
                 } else {
-                    res.json({"status":"OK"});
+                    res.status(200).json({"status":"OK"});
                 }
             }),
-            questionnaire.deleteMany({}, (error) => {
+            questionnaireModel.deleteMany({}, (error) => {
                 if (error) {
-                    res.json({"status":"failed", "reason":error});
+                    res.status(500).json({"status":"failed", "reason":error});
                 } else {
-                    res.json({"status":"OK"});
+                    res.status(200).json({"status":"OK"});
                 }
     })
 }
-exports.questionnaire_upd = (req, res) => {          //find fields
-    const field1 = req.body.field1;
-    const field2 = req.body.field2;
-    const files = req.files;
-    // Insert the received data into the database
-    // (You would need to implement this part, which is specific to your database)
-    questionnaire.insertMany({
-        questionnaireID: field1,
-        questionnaireTitle:field2,
-        files: files
-    }).then(r => {res.send({ status: 'success' }); })
 
-    res.send({ status: 'success' });
+exports.questionnaire_upd = async (req, res) => {          //find fields
+    const file= req.file;
+    const fileData = fs.readFileSync(file.path);
+    const data = JSON.parse(fileData);
 
-    //console.log(req.body);
-    console.log(req.files);
+    const questionnaire = new questionnaireModel(data);
+    try {
+        await questionnaire.save();
+        res.status(200).send(questionnaire);
+    }catch(error) {
+        res.status(500).send(error);
+    }
 }
+
+
 exports.resetq = (req, res) => {
     const id = req.params.id;
-    questionnaire.deleteMany({  questionnaireID: id  }, (error) => {
+    questionnaireModel.deleteMany({  questionnaireID: id  }, (error) => {
         if (error) {
-            res.json({"status":"failed", "reason":error});
+            res.status(500).json({"status":"failed", "reason":error});
         } else {
-            res.json({"status":"OK"});
+            res.status(200).json({"status":"OK"});
         }
     });
 
