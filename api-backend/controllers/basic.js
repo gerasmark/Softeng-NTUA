@@ -13,13 +13,14 @@ const json2csv = require("json2csv").parse;
 exports.getQuestionnaire = async (req, res) => {
     try {
         const id = req.params.questionnaireID;
-        if(!id) res.status(400).json({message: 'Bad request'});
+        if(!id) {res.status(400).json({message: 'Bad request'}); return;}
         const data = await questionnaireModel.find({questionnaireID: id}, {
             'questions._id': 0,
             'questions.options._id': 0
         }).select('-_id');
         if(data.length==0){
             res.status(402).json({message: 'No data'});
+            return;
         }
         const format = req.query.format;
         if (format === 'csv') {
@@ -34,14 +35,15 @@ exports.getQuestionnaire = async (req, res) => {
         }
     }catch(error){
         res.status(500).json({message: 'Internal server error'});
+        return;
     }
 
 }
 exports.getQuestionnaireQuestion = async (req, res) => {
     try {
         const id1 = req.params.questionnaireID;
-        const id2 = req.params.questi
-        if(!id1 || !id2) res.status(400).json({message: 'Bad request'});
+        const id2 = req.params.questionID;
+        if(!id1 || !id2) {return res.status(400).json({message: 'Bad request'});}
         const format = req.query.format;
         const results = await questionnaireModel.find({questionnaireID: id1,"questions.qID":id2}, {"questions": {"$elemMatch": {"qID": id2}}}).exec();
         const question = results.map(function (result) {
@@ -54,6 +56,7 @@ exports.getQuestionnaireQuestion = async (req, res) => {
         });
         if(question.length==0){
             res.status(402).json({message: 'No data'});
+            return;
         }
         const data = {"questionnaireID": id1, "qID": id2, question};
         if (format === 'csv') {
