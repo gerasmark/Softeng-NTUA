@@ -30,21 +30,21 @@ exports.resetAll = (req, res) => {
         if (error) {
             res.status(500).json({"status":"failed", "reason":error});
         } else {
-            res.json({"status":"OK"});
+            res.status(200).json({"status":"OK"});
         }
     }),
             userModel.deleteMany({}, (error) => {
                 if (error) {
                     res.status(500).json({"status":"failed", "reason":error});
                 } else {
-                    res.json({"status":"OK"});
+                    res.status(200).json({"status":"OK"});
                 }
             }),
             questionnaireModel.deleteMany({}, (error) => {
                 if (error) {
                     res.status(500).json({"status":"failed", "reason":error});
                 } else {
-                    res.json({"status":"OK"});
+                    res.status(200).json({"status":"OK"});
                 }
     })
 }
@@ -57,7 +57,7 @@ exports.questionnaire_upd = async (req, res) => {          //find fields
     const questionnaire = new questionnaireModel(data);
     try {
         await questionnaire.save();
-        res.status(201).send(questionnaire);
+        res.status(200).send(questionnaire);
     }catch(error) {
         res.status(500).send(error);
     }
@@ -68,9 +68,9 @@ exports.resetq = (req, res) => {
     const id = req.params.id;
     questionnaireModel.deleteMany({  questionnaireID: id  }, (error) => {
         if (error) {
-            res.json({"status":"failed", "reason":error});
+            res.status(500).json({"status":"failed", "reason":error});
         } else {
-            res.json({"status":"OK"});
+            res.status(200).json({"status":"OK"});
         }
     });
 
