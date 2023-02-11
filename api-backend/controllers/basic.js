@@ -69,6 +69,7 @@ exports.getQuestionnaireQuestion = async (req, res) => {
     }
     catch (error) {
         res.status(500).json({message: 'Internal server error'});
+        return;
     }
         //const question2 = question.find({ },{'questions.options._id':0}).exec();
 
@@ -81,7 +82,10 @@ exports.postQuestionnaire =  async (req, res) => {
         const questionID = req.params.questionID;
         const session = req.params.session;
         const optionID = req.params.optionID;
-        if(!questionnaireID||!questionID||!session||!optionID) res.status(400).json({message: 'Bad request'});
+        if(!questionnaireID||!questionID||!session||!optionID) {
+            res.status(400).json({message: 'Bad request'});
+        return;
+        }
         await answerModel.find({
             session: session, questionnaireID: questionnaireID
         }).then(result => {
@@ -104,17 +108,20 @@ exports.postQuestionnaire =  async (req, res) => {
         //} catch (err) {
         //    res.send("fail");
         //}
-    } catch (err) {res.status(500).json({message: 'Internal server error'});}
+    } catch (err) {res.status(500).json({message: 'Internal server error'});
+        return;}
 }
 exports.getSessionAnswers = async (req, res) => {
  try {
      const id = req.params.questionnaireID;
      const ses = req.params.session;
-     if(!id1 || !ses) res.status(400).json({message: 'Bad request'});
+     if(!id1 || !ses){ res.status(400).json({message: 'Bad request'});
+         return;}
      const data = await answerModel.find({questionnaireID: id, session: ses}, {'answers._id': 0}).select('-_id');
      const format = req.query.format;
      if(data.length==0){
          res.status(402).json({message: 'No data'});
+         return;
      }
      if (format === 'csv') {
          const data1 = data.map(item => item._doc);
@@ -127,6 +134,7 @@ exports.getSessionAnswers = async (req, res) => {
  }
  catch (error) {
      res.status(500).json({message: 'Internal server error'});
+     return;
  }
 }
 
@@ -134,7 +142,7 @@ exports.getQuestionAnswers = async (req, res) => {
     try {
         const id1 = req.params.questionnaireID;
         const id2 = req.params.questionID;
-        if(!id1 || !id2) res.status(400).json({message: 'Bad request'});
+        if(!id1 || !id2) {res.status(400).json({message: 'Bad request'}); return;}
         const results = await answerModel.find({
             questionnaireID: id1,
             "answers.qID": id2
@@ -152,6 +160,7 @@ exports.getQuestionAnswers = async (req, res) => {
         const format = req.query.format;
         if(data.length==0){
             res.status(402).json({message: 'No data'});
+            return;
         }
         if (format === 'csv') {
             const csvdata = json2csv(data);
@@ -163,5 +172,6 @@ exports.getQuestionAnswers = async (req, res) => {
     }
     catch (error) {
         res.status(500).json({message: 'Internal server error'});
+        return;
     }
 }
