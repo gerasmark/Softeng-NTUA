@@ -11,92 +11,154 @@ const _ = require("lodash");
 const json2csv = require("json2csv").parse;
 
 exports.getQuestionnaire = async (req, res) => {
-    const id = req.params.questionnaireID;
-    const data = await questionnaireModel.find({questionnaireID:id},{'questions._id':0,'questions.options._id':0}).select('-_id');
-    const format = req.query.format;
-    if (format ==='csv'){
-        const data1 = data.map(item => item._doc);
-        const csvdata = json2csv(data1);
-        res.setHeader("Content-Type", "text/csv");
-        res.send(csvdata);
+    try {
+        const id = req.params.questionnaireID;
+        if(!id) res.status(400).json({message: 'Bad request'});
+        const data = await questionnaireModel.find({questionnaireID: id}, {
+            'questions._id': 0,
+            'questions.options._id': 0
+        }).select('-_id');
+        if(data.length==0){
+            res.status(402).json({message: 'No data'});
+        }
+        const format = req.query.format;
+        if (format === 'csv') {
+            const data1 = data.map(item => item._doc);
+            //const fields = ['questionnaireID', 'quetionnaireTitle', 'keywords', 'questions.qID', 'questions.qtext', 'questions.required', 'questions.type', 'questions.options.optID', 'questions.options.opttxt', 'questions.options.nextqID','creator'];
+            //const opts = { fields };
+            const csvdata = json2csv(data1);
+            res.setHeader("Content-Type", "text/csv");
+            res.status(200).send(csvdata);
+        } else {
+            res.status(200).json(data);
+        }
+    }catch(error){
+        res.status(500).json({message: 'Internal server error'});
     }
-    else {res.send(data);}
 
 }
 exports.getQuestionnaireQuestion = async (req, res) => {
-    const id1 = req.params.questionnaireID;
-    const id2 = req.params.questionID;
-        const results = await questionnaireModel.find({questionnaireID:id1 },{"questions": { "$elemMatch": {"qID":id2}}}).exec();
-        const question = results.map(function(result) {
-                return {
-                    qtext:result.questions[0].qtext,
-                    required:result.questions[0].required,
-                    type:result.questions[0].type,
-                    options:result.questions[0].options,
-                };
+    try {
+        const id1 = req.params.questionnaireID;
+        const id2 = req.params.questi
+        if(!id1 || !id2) res.status(400).json({message: 'Bad request'});
+        const format = req.query.format;
+        const results = await questionnaireModel.find({questionnaireID: id1,"questions.qID":id2}, {"questions": {"$elemMatch": {"qID": id2}}}).exec();
+        const question = results.map(function (result) {
+            return {
+                qtext: result.questions[0].qtext,
+                required: result.questions[0].required,
+                type: result.questions[0].type,
+                options: result.questions[0].options,
+            };
         });
+        if(question.length==0){
+            res.status(402).json({message: 'No data'});
+        }
+        const data = {"questionnaireID": id1, "qID": id2, question};
+        if (format === 'csv') {
+            const csvdata = json2csv(data);
+            res.setHeader("Content-Type", "text/csv");
+            res.status(200).send(csvdata);
+        } else {
+            res.status(200).json(data);
+        }
+    }
+    catch (error) {
+        res.status(500).json({message: 'Internal server error'});
+    }
         //const question2 = question.find({ },{'questions.options._id':0}).exec();
-        res.send({"questionnaireID":id1,"qID":id2,question});
 
 
 }
 //,'questions._id':0,'questions.options._id':0
 exports.postQuestionnaire =  async (req, res) => {
-    const questionnaireID = req.params.questionnaireID;
-    const questionID = req.params.questionID;
-    const session = req.params.session;
-    const optionID = req.params.optionID;
-    await answerModel.find({
-    session:session,questionnaireID:questionnaireID
-    }).then(result => {
-        if(result.length == 0) {
-            const answer = new answerModel({
-                questionnaireID: questionnaireID,
-                session:session,
-                answers:[]
-            });
-            answer.save();
-        }
-    })
     try {
-    const answer = await answerModel.findOneAndUpdate({ session:session,questionnaireID:questionnaireID }, { $push: { answers: { ans:optionID,qID:questionID } } }, { new: true }).exec();
-    console.log(answer);
-    res.send("Success");}
-    catch(err) {
-        res.send("fail");
-    }
+        const questionnaireID = req.params.questionnaireID;
+        const questionID = req.params.questionID;
+        const session = req.params.session;
+        const optionID = req.params.optionID;
+        if(!questionnaireID||!questionID||!session||!optionID) res.status(400).json({message: 'Bad request'});
+        await answerModel.find({
+            session: session, questionnaireID: questionnaireID
+        }).then(result => {
+            if (result.length == 0) {
+                const answer = new answerModel({
+                    questionnaireID: questionnaireID,
+                    session: session,
+                    answers: []
+                });
+                answer.save();
+            }
+        })
+        //try {
+            const answer = await answerModel.findOneAndUpdate({
+                session: session,
+                questionnaireID: questionnaireID
+            }, {$push: {answers: {ans: optionID, qID: questionID}}}, {new: true}).exec();
+            //console.log(answer);
+            res.status(200).send();
+        //} catch (err) {
+        //    res.send("fail");
+        //}
+    } catch (err) {res.status(500).json({message: 'Internal server error'});}
 }
 exports.getSessionAnswers = async (req, res) => {
-    const id = req.params.questionnaireID;
-    const ses = req.params.session;
-    res.send(await answerModel.find({questionnaireID:id, session:ses},{'answers._id':0}).select('-_id'));
+ try {
+     const id = req.params.questionnaireID;
+     const ses = req.params.session;
+     if(!id1 || !ses) res.status(400).json({message: 'Bad request'});
+     const data = await answerModel.find({questionnaireID: id, session: ses}, {'answers._id': 0}).select('-_id');
+     const format = req.query.format;
+     if(data.length==0){
+         res.status(402).json({message: 'No data'});
+     }
+     if (format === 'csv') {
+         const data1 = data.map(item => item._doc);
+         const csvdata = json2csv(data1);
+         res.setHeader("Content-Type", "text/csv");
+         res.status(200).send(csvdata);
+     } else {
+         res.status(200).json(data);
+     }
+ }
+ catch (error) {
+     res.status(500).json({message: 'Internal server error'});
+ }
 }
-// exports.getQuestionAnswers = async (req, res) => {
-//     const id1 = req.params.questionnaireID;
-//     const id2 = req.params.questionID;
-//     await answerModel.find({questionnaireID:id1 },{ "answers": { "$elemMatch": { "qID": id2 } },"session":1},function(err, results) {
-//         if (err) throw err;
-//         const answers = results.map(function(result) {
-//             return {
-//                 ans:result.answers[0].ans,
-//                 session:result.session
-//             };
-//         });
-//         res.send({"questionnaireID":id1,"qID":id2,answers});
-//     });
-//     //res.send(await answerModel.find({questionnaireID:id1 },{ "answers": { "$elemMatch": { "qID": "Q09" } },"session":1 }));
-// }
-exports.getQuestionAnswers = async (req, res) => {
-    const id1 = req.params.questionnaireID;
-    const id2 = req.params.questionID;
-        const results = await answerModel.find({questionnaireID:id1 ,"answers.qID":id2},{ "answers": { "$elemMatch": { "qID": id2 } },"session":1 }).exec();
-        const answer = results.map(function(result) {
 
-                return {
-                    ans:result.answers[0].ans,
-                    session:result.session
-                };
+exports.getQuestionAnswers = async (req, res) => {
+    try {
+        const id1 = req.params.questionnaireID;
+        const id2 = req.params.questionID;
+        if(!id1 || !id2) res.status(400).json({message: 'Bad request'});
+        const results = await answerModel.find({
+            questionnaireID: id1,
+            "answers.qID": id2
+        }, {"answers": {"$elemMatch": {"qID": id2}}, "session": 1}).exec();
+        const answer = results.map(function (result) {
+
+            return {
+                ans: result.answers[0].ans,
+                session: result.session
+            };
 
         });
-        res.send({"questionnaireID":id1,"qID":id2,answer});
+
+        const data = {"questionnaireID": id1, "qID": id2, answer};
+        const format = req.query.format;
+        if(data.length==0){
+            res.status(402).json({message: 'No data'});
+        }
+        if (format === 'csv') {
+            const csvdata = json2csv(data);
+            res.setHeader("Content-Type", "text/csv");
+            res.status(200).send(csvdata);
+        } else {
+            res.status(200).json(data);
+        }
+    }
+    catch (error) {
+        res.status(500).json({message: 'Internal server error'});
+    }
 }

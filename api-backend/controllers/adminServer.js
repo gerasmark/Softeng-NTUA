@@ -13,29 +13,36 @@ const fs = require('fs');
 
 
 exports.healthCheck = (req, res) => {
-    const url = 'mongodb+srv://gerasimos:gerasimos@nodeexpress.xtecm6k.mongodb.net/survey?retryWrites=true&w=majority';
-    const db = Number(mongoose.connection.readyState);
-    if (db === 1) { res.json({"status":"OK", "dbconnection":[url]});}
-    else { res.json( {"status":"failed", "dbconnection":[url]});}
+    try {
+        const url = 'mongodb+srv://gerasimos:gerasimos@nodeexpress.xtecm6k.mongodb.net/survey?retryWrites=true&w=majority';
+        const db = Number(mongoose.connection.readyState);
+        if (db === 1) {
+            res.status(200).json({"status": "OK", "dbconnection": [url]});
+        } else {
+            res.status(500).json({"status": "failed", "dbconnection": [url]});
+        }
+    }catch (error) {
+        res.status(500).send();
+    }
 }
 exports.resetAll = (req, res) => {
     answerModel.deleteMany({}, (error) => {
         if (error) {
-            res.json({"status":"failed", "reason":error});
+            res.status(500).json({"status":"failed", "reason":error});
         } else {
             res.json({"status":"OK"});
         }
     }),
             userModel.deleteMany({}, (error) => {
                 if (error) {
-                    res.json({"status":"failed", "reason":error});
+                    res.status(500).json({"status":"failed", "reason":error});
                 } else {
                     res.json({"status":"OK"});
                 }
             }),
             questionnaireModel.deleteMany({}, (error) => {
                 if (error) {
-                    res.json({"status":"failed", "reason":error});
+                    res.status(500).json({"status":"failed", "reason":error});
                 } else {
                     res.json({"status":"OK"});
                 }
@@ -69,45 +76,3 @@ exports.resetq = (req, res) => {
 
 
 }
-// const extract_csv = async (req, res) => {
-//     try {
-//         const { questionnaireID } = req.params;
-//         const questionnaire = await QuestionnaireSchema.findOne({
-//             _id: questionnaireID,
-//         });
-//
-//         if (!questionnaire) {
-//             res.status(400).json({ msg: "Bad Request" });
-//         } else {
-//             const { questions, sessions } = questionnaire;
-//
-//             var result = [];
-//             for (var i in sessions) {
-//                 const { sessionID, pairs } = sessions[i];
-//                 var obj = { sessionID: sessionID, pair: [] };
-//                 for (var j in pairs) {
-//                     const { qID, optionID } = pairs[j];
-//
-//                     const op = optionID;
-//
-//                     for (var k in questions) {
-//                         const { _id, options, qtext } = questions[k];
-//                         if (_id == qID) {
-//                             for (var l in options) {
-//                                 const { _id, opttext } = options[l];
-//
-//                                 if (_id == op) {
-//                                     const p = {
-//                                         qtext: qtext,
-//                                         opttext: opttext,
-//                                     };
-//                                     obj.pair.push(p);
-//                                     break;
-//                                 }
-//                             }
-//                             break;
-//                         }
-//                     }
-//                 }
-//                 result.push(obj);
-//             }
