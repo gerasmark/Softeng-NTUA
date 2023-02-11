@@ -102,7 +102,7 @@ export default {
 
 
         loginCallBackUser(response) {
-            this.$router.push({path: '/homePageUser'});
+            this.$router.push({path: '/usersurveys'});
             console.log(response);
         }
     }
