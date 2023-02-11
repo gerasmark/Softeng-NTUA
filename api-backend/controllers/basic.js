@@ -98,16 +98,16 @@ exports.postQuestionnaire =  async (req, res) => {
                 answer.save();
             }
         })
-        //try {
+        try {
             const answer = await answerModel.findOneAndUpdate({
                 session: session,
                 questionnaireID: questionnaireID
             }, {$push: {answers: {ans: optionID, qID: questionID}}}, {new: true}).exec();
             //console.log(answer);
             res.status(200).send();
-        //} catch (err) {
-        //    res.send("fail");
-        //}
+        } catch (err) {
+
+        }
     } catch (err) {res.status(500).json({message: 'Internal server error'});
         return;}
 }
@@ -115,7 +115,7 @@ exports.getSessionAnswers = async (req, res) => {
  try {
      const id = req.params.questionnaireID;
      const ses = req.params.session;
-     if(!id1 || !ses){ res.status(400).json({message: 'Bad request'});
+     if(!id || !ses){ res.status(400).json({message: 'Bad request'});
          return;}
      const data = await answerModel.find({questionnaireID: id, session: ses}, {'answers._id': 0}).select('-_id');
      const format = req.query.format;
