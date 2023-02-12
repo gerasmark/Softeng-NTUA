@@ -5,7 +5,7 @@ const questionnaireModel = require('../models/questionnaire');
 const { default: mongoose } = require("mongoose");
 require('../../app.js');
 const answerModel = require('../models/answer');
-const userModel = require('../models/user');
+const adminModel = require('../models/admin');
 
 const fs = require('fs');
 
@@ -33,7 +33,7 @@ exports.resetAll = (req, res) => {
             res.status(200).json({"status":"OK"});
         }
     }),
-            userModel.deleteMany({}, (error) => {
+            adminModel.deleteMany({}, (error) => {
                 if (error) {
                     res.status(500).json({"status":"failed", "reason":error});
                 } else {

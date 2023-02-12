@@ -5,7 +5,6 @@ const questionnaireModel = require('../models/questionnaire');
 const { default: mongoose } = require("mongoose");
 require('../../app.js');
 const answerModel = require('../models/answer');
-const userModel = require('../models/user');
 const surveyModel = require("../models/questionnaire");
 const _ = require("lodash");
 const json2csv = require("json2csv").parse;
@@ -93,21 +92,22 @@ exports.postQuestionnaire =  async (req, res) => {
                 const answer = new answerModel({
                     questionnaireID: questionnaireID,
                     session: session,
-                    answers: []
+                    answers: [{ans: optionID, qID: questionID}]
                 });
                 answer.save();
+                res.status(200).send();
             }
-        })
-        try {
-            const answer = await answerModel.findOneAndUpdate({
-                session: session,
-                questionnaireID: questionnaireID
-            }, {$push: {answers: {ans: optionID, qID: questionID}}}, {new: true}).exec();
-            //console.log(answer);
-            res.status(200).send();
-        } catch (err) {
+            else { try{
+                const answer =   answerModel.findOneAndUpdate({
+                    session: session,
+                    questionnaireID: questionnaireID
+                }, {$push: {answers: {ans: optionID, qID: questionID}}}, {new: true}).exec();
+                res.status(200).send();
+            } catch (err) {
 
-        }
+            }}
+        })
+
     } catch (err) {res.status(500).json({message: 'Internal server error'});
         return;}
 }
