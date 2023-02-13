@@ -1,5 +1,7 @@
 <template>
-    <router-link to="/login">login</router-link>
-    <router-link to="/adduser">adduser</router-link>
+
+    <router-link to="/login">Login</router-link>
+    <p></p>
+    <router-link to="/adduser">Add User</router-link>
     <router-view/>
 </template>
