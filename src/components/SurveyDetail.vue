@@ -12,13 +12,27 @@
             </v-row>
 
 
-<p> {{questions.options}}</p>
+
 
             <v-card class="px-lg-16 mx-16">
                 <v-card-title>
                     {{ current.qtext }}
                 </v-card-title>
-                <v-card-text >
+                <v-card-text v-if="current.type=='end'">
+                    <v-row class="justify-center">
+                        <v-col class="text-center">
+                            <v-btn color="primary"
+                                   @click="submit"
+                                   class="mt-3"
+
+                            >
+                                Submit
+                            </v-btn>
+                        </v-col>
+                    </v-row>
+                </v-card-text>
+
+                <v-card-text v-if="current.type !='end'">
                     <v-form ref="form"><v-col class="text-center">
 
                         <v-radio-group
@@ -37,7 +51,8 @@
                         </v-radio-group></v-col>
                     </v-form>
                 </v-card-text>
-                <v-card-actions>
+
+                <v-card-actions v-if="current.type !='end'">
                     <v-col class="text-blue-grey-lighten-1">
                         <v-btn @click="nextQuestion">Next</v-btn>
                     </v-col>
@@ -53,67 +68,73 @@
 </template>
 
 <script>
-import 'vuetify/dist/vuetify.min.css' // This imports the Vuetify CSS styles
-import '@mdi/font/css/materialdesignicons.css' // This imports the Material Design icons font
+import 'vuetify/dist/vuetify.min.css'
+import '@mdi/font/css/materialdesignicons.css'
 import { options } from "axios";
 import router from "../router/index.ts";
 import postService from '../postservice';
 import Vue from 'vue';
+
+export const BASE_URL = 'http://localhost:9103/intelliq_api' ;
 export default {
-    name: 'SurveyDetail',
+    async created() {
+        try {
+            const id = this.$route.params.id
+            this.surveys = await postService.getsurveys();
+            this.survey = this.surveys.find(survey => survey.id === id);
+            this.questions = this.survey.questions;
+            this.surveyQuestionnaireId = this.survey.questionnaire_id
+            this.current = this.questions[0];
+            this.nextqid = this.questions[0].nextqID;
+            this.coptions = this.current.options;
+            this.nextqid = this.coptions.nextqID;
+        } catch (error) {
+            console.error(error);
+        }
+    },
     data() {
         return {
             survey: [],
             questions: [],
             current: {},
             selectedOption: '',
-
+            coptions:[],
+            nextqid: [],
+            answers: []
         };
-    },
-    async created() {
-        try {
-            const id = this.$route.params.id
-            this.surveys = await postService.getsurveys();
-            this.survey = this.surveys.find(survey => survey.id === id);
-            this.questions= this.survey.questions;
-            this.surveyQuestionnaireId = this.survey.questionnaire_id
-            this.current = this.questions[0];
-            this.nextqid = this.questions[0].nextqID;
-            this.options= this.questions.options;
-
-
-
-        } catch (error) {
-            console.error(error);
-        }
     },
 
     methods: {
         nextQuestion() {
-            this.getSelectedOption()
-            for (let i = 0; i < this.questions.length; i++) {
-                if (this.questions[i].qID === this.nextqid) {
-                    this.current = this.questions[i];
-                    this.nextqid = this.current.nextqID;
+            let coptions = this.current.options;
+            let selectedValue = this.selectedOption;
+            for (let i = 0; i < coptions.length; i++) {
+                if (coptions[i].opttxt === selectedValue) {
+                    this.nextqid = coptions[i].nextqID;
                     break;
                 }
             }
+            for (let i = 0; i < this.questions.length; i++) {
+                if (this.questions[i].qID === this.nextqid) {
+                    this.current = this.questions[i];
+                    break;
+                }
+            }
+            // add the answer to the answers array
+            this.answers.push({ question_id: this.current.qID, answer: selectedValue });
         },
-        getSelectedOption() {
-            let selectedOption = this.currentQuestion.options.find(
-                    option => option.optID === this.selectedOption
-            );
-            this.currentIndex = this.questions.findIndex(
-                    question => question.qID === selectedOption.nextqID
-            );
-        },
-        renderQuestion() {
-            this.currentQuestion = this.questions[this.currentIndex];
+        async submit() {
+            try {
+                // post the answers to the API
+                await postService.postAnswers({
+                    questionnaire_id: this.surveyQuestionnaireId,
+                    answers: this.answers
+                });
+                this.$router.push({ name: 'surveys' });
+            } catch (error) {
+                console.error(error);
+            }
         }
     }
-
-
-
-
-};
+}
 </script>
