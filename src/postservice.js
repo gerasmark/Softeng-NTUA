@@ -3,6 +3,8 @@ const url = 'http://localhost:9103/intelliq_api/user/';
 const url1 = 'http://localhost:9103/intelliq_api/adminpage/';
 const url2 = 'http://localhost:9103/intelliq_api/institution/';
 const url3 = 'http://localhost:9103/intelliq_api/questionnaire/';
+const url4 = 'http://localhost:9103/intelliq_api/answer/';
+
 
 
 class postService {
@@ -69,6 +71,17 @@ class postService {
     }
     static insertuser(url, text, callback) {
         return axios.post(url,{text}, callback);
+    }
+    async postAnswers(surveyQuestionnaireId, answers) {
+        try {
+            const response = await axios.post(url4, {
+                questionnaire_id: this.surveyQuestionnaireId,
+                answers: this.answers
+            });
+            console.log(response.data);
+        } catch (error) {
+            console.error(error);
+        }
     }
 
 }
