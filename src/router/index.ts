@@ -7,7 +7,7 @@ import UserSurveys from '../components/UserQuestionnaires.vue'
 import Admin from '../components/Admin.vue'
 import PostUser from '../components/Postuser.vue'
 import Questionnarie from '../components/UploadQuestionnarie.vue'
-import SurveyDetail from '../components/SurveyDetail.vue'
+import AnswerSurvey from '../components/AnswerSurvey.vue'
 import App from '../components/App.vue'
 
 // @ts-ignore
@@ -39,11 +39,7 @@ const routes = [
         name: 'UserSurveys',
         component: UserSurveys
     },
-    {
-        path: '/adminpage',
-        name: 'Admin',
-        component: Admin
-    },
+
     {
         path: '/homePageUser',
         name: 'Postuser',
@@ -51,8 +47,8 @@ const routes = [
     },
     {
         path: '/usersurveys/:id',
-        name: 'SurveyDetail',
-        component: SurveyDetail
+        name: 'AnswerSurvey',
+        component: AnswerSurvey
     },
 
 ]

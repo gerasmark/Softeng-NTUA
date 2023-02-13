@@ -9,10 +9,8 @@
 
 
         <v-container class="text-center">
-            <v-row class="my-5">
-                <v-col
-                        v-for="survey in surveys"
-                >
+            <v-row class="my-5 justify-center" v-for="survey in surveys">
+
                     <v-card >
                         <v-list-item-content>
                     <v-btn @click="goToSurvey(survey.id)">{{ survey.name }} </v-btn>
@@ -20,7 +18,7 @@
 
 
                     </v-card>
-                </v-col>
+
             </v-row>
         </v-container>
 
@@ -54,7 +52,8 @@ export default {
 methods: {
     ...mapActions([]),
             goToSurvey(id) {
-                this.$router.push({ name: 'SurveyDetail', params: { id } });
+
+                this.$router.push({ name: 'AnswerSurvey', params: { id } });
             },
         },
     computed: {

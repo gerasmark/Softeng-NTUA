@@ -25,7 +25,7 @@ class postService {
             try {
                 const res = await axios.get(url1);
                 const data = res.data;
-                const names = data.map(doc => doc.name)
+                const names = data.map(doc => ({ name: doc.name, id: doc._id}));
                 resolve(names);
             } catch (error) {
                 reject(error);
@@ -76,8 +76,8 @@ class postService {
     static async postAnswers(surveyQuestionnaireId, answers) {
         try {
             const response = await axios.post(url4, {
-                questionnaire_id: this.surveyQuestionnaireId,
-                answers: this.answers,
+                questionnaire_id: surveyQuestionnaireId,
+                answers: answers,
                 session: session
             });
             console.log(response.data);

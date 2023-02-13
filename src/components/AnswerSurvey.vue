@@ -18,21 +18,19 @@
                 <v-card-title>
                     {{ current.qtext }}
                 </v-card-title>
-                <v-card-text v-if="current.type=='end'">
+                <v-card-text v-if="current.type==='end'">
                     <v-row class="justify-center">
                         <v-col class="text-center">
                             <v-btn color="primary"
                                    @click="submit"
-                                   class="mt-3"
-
-                            >
+                                   class="mt-3">
                                 Submit
                             </v-btn>
                         </v-col>
                     </v-row>
                 </v-card-text>
 
-                <v-card-text v-if="current.type !='end'">
+                <v-card-text v-if="current.type !=='end'">
                     <v-form ref="form"><v-col class="text-center">
 
                         <v-radio-group
@@ -83,7 +81,6 @@ export default {
             this.surveys = await postService.getsurveys();
             this.survey = this.surveys.find(survey => survey.id === id);
             this.questions = this.survey.questions;
-            this.surveyQuestionnaireId = this.survey.questionnaire_id
             this.current = this.questions[0];
             this.nextqid = this.questions[0].nextqID;
             this.coptions = this.current.options;
