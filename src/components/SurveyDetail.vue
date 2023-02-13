@@ -125,11 +125,11 @@ export default {
         },
         async submit() {
             try {
-                // // post the answers to the API
-                // await postService.postAnswers({
-                //     questionnaire_id: this.surveyQuestionnaireId,
-                //     answers: this.answers
-                // });
+                // post the answers to the API
+                await postService.postAnswers({
+                    questionnaire_id: this.surveyQuestionnaireId,
+                    answers: this.answers
+                });
                 this.$router.push({ path: '/usersurveys' });
             } catch (error) {
                 console.error(error);

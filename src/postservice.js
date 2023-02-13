@@ -5,9 +5,10 @@ const url2 = 'http://localhost:9103/intelliq_api/institution/';
 const url3 = 'http://localhost:9103/intelliq_api/questionnaire/';
 const url4 = 'http://localhost:9103/intelliq_api/answer/';
 
-
+let session=0;
 
 class postService {
+
     static getuser(){
         return new Promise(async (resolve, reject) => {
             try {
@@ -72,17 +73,19 @@ class postService {
     static insertuser(url, text, callback) {
         return axios.post(url,{text}, callback);
     }
-    async postAnswers(surveyQuestionnaireId, answers) {
+    static async postAnswers(surveyQuestionnaireId, answers) {
         try {
             const response = await axios.post(url4, {
                 questionnaire_id: this.surveyQuestionnaireId,
-                answers: this.answers
+                answers: this.answers,
+                session: session
             });
             console.log(response.data);
         } catch (error) {
             console.error(error);
         }
     }
+
 
 }
 export default postService;
