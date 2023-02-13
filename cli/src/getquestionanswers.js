@@ -39,7 +39,7 @@ module.exports = function(o) {
                 errorHandler(err);
         })
 
-        console.log(chalk.green(url));
+        //console.log(chalk.green(url));
         //axios(url);
     }
     else {

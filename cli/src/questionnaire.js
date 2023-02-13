@@ -31,15 +31,16 @@ module.exports = function(o) {
             url: url,
             httpsAgent: new https.Agent({ rejectUnauthorized: false })
         };
-        axios.get(url)
+        axios(config)
             .then(res => {
                console.dir(res.data,{depth:null})
         })
             .catch(err => {
                 errorHandler(err);
+                //console.log(err);
         })
 
-        console.log(chalk.green(url));
+        //console.log(chalk.green(url));
         //axios(url);
     }
     else {

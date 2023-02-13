@@ -1,5 +1,5 @@
 module.exports = function (scope, a, b, c, d) {
-    let base = 'http://localhost:9103/intelliq_api';
+    let base = 'https://localhost:9103/intelliq_api';
 
     if (scope === '/resetq/') {
         base = base + scope + a;
