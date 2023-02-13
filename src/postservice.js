@@ -49,7 +49,7 @@ class postService {
                 const res = await axios.get(url3);
                 const data = res.data;
 
-                resolve(data);
+                resolve(data.questions);
             } catch (error) {
                 reject(error);
             }

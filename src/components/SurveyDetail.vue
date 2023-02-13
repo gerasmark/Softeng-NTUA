@@ -1,20 +1,22 @@
 <template >
     <v-app id="inspire" >
         <v-app-bar app color="indigo" class="pa-0" :elevation="5">
-            <v-col class="d-flex justify-space-around">
+            <v-col class="d-flex justify-space-around mt-10 mb-10">
                 <h1>IntelliQ</h1>
             </v-col>
         </v-app-bar>
 
         <v-container class="text-center">
-            <v-row class="mt-5 justify-center">
-                <h1>{{ survey.questions }}</h1>
+            <v-row class="mt-10 mb-10 justify-center">
+                <h1>{{ survey.name }}</h1>
             </v-row>
 
-            <v-card class="px-lg-16 mx-16" v-for="question in survey.questions" :key="question.qID">
+
+<p> {{questions.options}}</p>
+
+            <v-card class="px-lg-16 mx-16">
                 <v-card-title>
-                    {{ question.qtext }}
-                    <v-spacer></v-spacer>
+                    {{ current.qtext }}
                 </v-card-title>
                 <v-card-text >
                     <v-form ref="form"><v-col class="text-center">
@@ -24,12 +26,14 @@
                                 :mandatory="true"
                                 class="mb-3"
                         >
+
                             <v-radio class="mx-10"
-                                    v-for="option in question.options"
-                                    :key="option.optID"
-                                    :label="option.opttxt"
-                                    :value="option.opttxt"
+                                     v-for="option in current.options"
+                                     :key="option.optID"
+                                     :label="option.opttxt"
+                                     :value="option.opttxt"
                             ></v-radio>
+
                         </v-radio-group></v-col>
                     </v-form>
                 </v-card-text>
@@ -39,7 +43,12 @@
                     </v-col>
                 </v-card-actions>
             </v-card>
+
         </v-container>
+
+
+
+
     </v-app>
 </template>
 
@@ -54,15 +63,10 @@ export default {
     name: 'SurveyDetail',
     data() {
         return {
-            inputValue: '',
-            surveys: [],
             survey: [],
-            surveyId: '',
-            surveyQuestions: [],
-            surveyQuestionnaireId: '',
-            currentQuestionIndex: 0,
-            selectedOption: '',
             questions: [],
+            current: {},
+            selectedOption: '',
 
         };
     },
@@ -70,29 +74,46 @@ export default {
         try {
             const id = this.$route.params.id
             this.surveys = await postService.getsurveys();
-            this.questions= await postService.getquestions();
-           // this.surveyQuestions = this.questions.find(surveyQuestions => surveyQuestions.id== id);
             this.survey = this.surveys.find(survey => survey.id === id);
+            this.questions= this.survey.questions;
             this.surveyQuestionnaireId = this.survey.questionnaire_id
+            this.current = this.questions[0];
+            this.nextqid = this.questions[0].nextqID;
+            this.options= this.questions.options;
+
+
 
         } catch (error) {
             console.error(error);
         }
     },
-    computed: {
-        currentQuestion() {
-            return this.survey.questions[this.currentQuestionIndex];
-        },
-    },
+
     methods: {
         nextQuestion() {
-            if (this.currentQuestionIndex + 1 < this.survey.questions.length) {
-                this.currentQuestionIndex++;
-                this.selectedOption = '';
-            } else {
-                // Show the results or take some other action when all questions are answered
+            this.getSelectedOption()
+            for (let i = 0; i < this.questions.length; i++) {
+                if (this.questions[i].qID === this.nextqid) {
+                    this.current = this.questions[i];
+                    this.nextqid = this.current.nextqID;
+                    break;
+                }
             }
         },
-    },
+        getSelectedOption() {
+            let selectedOption = this.currentQuestion.options.find(
+                    option => option.optID === this.selectedOption
+            );
+            this.currentIndex = this.questions.findIndex(
+                    question => question.qID === selectedOption.nextqID
+            );
+        },
+        renderQuestion() {
+            this.currentQuestion = this.questions[this.currentIndex];
+        }
+    }
+
+
+
+
 };
 </script>
