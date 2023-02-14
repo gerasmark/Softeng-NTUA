@@ -10,7 +10,7 @@
                 <v-row>
                     <v-col class="text-left mr-10"><h2>Welcome {{ admin }}</h2></v-col>
                     <v-col class="text-right">
-                        <v-btn>Create a Survey</v-btn>
+                        <v-btn @click="createSurvey()">Create a Survey</v-btn>
                     </v-col>
                 </v-row>
             </v-container>
@@ -37,7 +37,8 @@
                     <v-btn class="mx-auto mb-10"
                            max-width="500"
                            style="top:-100px"
-                           v-for="survey in adminSurveys">
+                           v-for="survey in adminSurveys"
+                            >
                         {{ survey.name }}
                     </v-btn>
                 </v-col>
@@ -74,14 +75,15 @@ export default {
 
     },
     methods: {
-        goToSurveyAdmin(survey) {
-            //function that shows you the answers of a survey
-        },
+        //goToSurveyAdmin(survey) {
+        //function that shows you the answers of a survey
+        // },
         createSurvey() {
-            //function that takes you to the survey creation page
-        }
+            this.$router.push({ name: 'CreateSurvey' });
 
-    }
+
+        },
+    },
 };
 </script>
 
