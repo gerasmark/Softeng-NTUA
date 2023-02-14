@@ -57,7 +57,7 @@ exports.questionnaire_upd = async (req, res) => {          //find fields
     const questionnaire = new questionnaireModel(data);
     try {
         await questionnaire.save();
-        res.status(200).send(questionnaire);
+        res.status(201).send(questionnaire);
     }catch(error) {
         res.status(500).send(error);
     }
