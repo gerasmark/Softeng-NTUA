@@ -1,23 +1,19 @@
 <template>
     <v-app id="inspire">
-            <v-app-bar app color="indigo" class="pa-0" :elevation="5">
-                <v-col class="d-flex justify-space-around">
-                    <h1>IntelliQ</h1>
-                </v-col>
-            </v-app-bar>
+        <v-app-bar app color="indigo" class="pa-0" :elevation="5">
+            <v-col class="d-flex justify-space-around">
+                <h1>IntelliQ</h1>
+            </v-col>
+        </v-app-bar>
         <div id="app" style="position:absolute; top:55px; left:35px">
             <v-container>
-            <v-row>
-                <v-col class="text-left mr-10"><h2>Welcome {{admin}}</h2></v-col>
-                <v-col class="text-right">
-                    <v-btn>Create a Survey</v-btn>
-                </v-col>
-            </v-row>
+                <v-row>
+                    <v-col class="text-left mr-10"><h2>Welcome {{ admin }}</h2></v-col>
+                    <v-col class="text-right">
+                        <v-btn>Create a Survey</v-btn>
+                    </v-col>
+                </v-row>
             </v-container>
-
-
-
-
         </div>
         <v-container class="fill-height justify-lg-space-around" fluid>
             <v-row align="center" justify="center" dense>
@@ -25,58 +21,68 @@
                     <v-card
                             class="mx-auto"
                             max-width="500"
-                            style="top:-175px"
+                            style="top:-180px"
                     >
-                        <v-card-item class="bg-indigo-lighten-5 justicy">
+                        <v-card-item class="bg-indigo-lighten-5 justify-center">
                             <v-card-title class="align-center">
-                                    <span class="text-h5">
-                                        <p class="text-center">
-                                             Your Surveys:
-
-                                        </p>
+                                    <span class="text-h5 text-center ">
+                                        Your Surveys:
                                     </span>
                             </v-card-title>
-                        </v-card-item>
-                        <v-card-item class="bg-indigo-lighten-5">
-                            <v-btn class="mt-4 mb-3">
-                                <Popupsurvey/>
-                            </v-btn>
+
+
                         </v-card-item>
                     </v-card>
-                </v-col>
-            </v-row>
 
+                    <v-btn class="mx-auto mb-10"
+                           max-width="500"
+                           style="top:-100px"
+                           v-for="survey in adminSurveys">
+                        {{ survey.name }}
+                    </v-btn>
+                </v-col>
+
+                <h1></h1>
+            </v-row>
         </v-container>
     </v-app>
 </template>
 
 <script>
-import 'vuetify/dist/vuetify.min.css'
-import '@mdi/font/css/materialdesignicons.css'
-import { options } from "axios";
-import router from "../router/index.ts";
 import postService from '../postservice';
-import Vue from 'vue';
 
 export default {
-    async created() {
-        try {
-            const admin=this.$route.params.selectedValue
-            this.admins=await postService.getadmin()
-        } catch (error) {
-        }
-    },
-    data () {
+    name: "Admin",
+
+    data() {
         return {
-            admin:null,
-            admins:[],
-            surveys:[]
-
-        }
+            admin: [],
+            admins: [],
+            adminID: '',
+            surveys: [],
+            adminSurveys: []
+        };
     },
+    async created() {
+        this.admin = this.$route.params.admin
+        this.admins = await postService.getadmin();
+        this.adminID = this.admins.find(ad => ad.name === this.admin).id;
+        this.surveys = await postService.getsurveys();
+        this.adminSurveys = this.surveys.filter(survey => survey.creator === this.adminID);
+        console.log(this.adminSurveys);
 
 
-}
+    },
+    methods: {
+        goToSurveyAdmin(survey) {
+            //function that shows you the answers of a survey
+        },
+        createSurvey() {
+            //function that takes you to the survey creation page
+        }
+
+    }
+};
 </script>
 
 <style scoped>
