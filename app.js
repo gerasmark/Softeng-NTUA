@@ -21,7 +21,7 @@ app.use(cors())
 
 
 //run post and get responses
-app.use('/intelliq_api/questionnaire',survey);
+app.use('/intelliq_api/questionnaires',survey);
 app.use('/intelliq_api/adminpage',admin);
 app.use('/intelliq_api/answer',answer);
 app.use('/intelliq_api/admin',adminServer);

@@ -21,16 +21,15 @@ class requests {
         })
     }
 
-    // static post(url, data, callback) {
-    //     return new Promise(async (resolve, reject) => {
-    //         try {
-    //             const res = await axios.post(url, data);
-    //             callback(res.data);
-    //         } catch (error) {
-    //             reject(error);
-    //         }
-    //     })
-    // }
+    static post(url, data) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const res = await axios.post(url, data);
+            } catch (error) {
+                reject(error);
+            }
+        })
+    }
 
     static post(url) {
         return new Promise(async (resolve, reject) => {
