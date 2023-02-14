@@ -97,10 +97,11 @@ export default {
 
         login() {
             if (this.selectedValue === 'User') {
-                var loginUserObj = {
-                    name: ''
-                }
-                requests.post(BASE_URL +'/user/postUser/', loginUserObj, this.loginCallBackUser);
+                // var loginUserObj = {
+                //     name: ''
+                // }
+                // requests.post(BASE_URL +'/user/postUser/', loginUserObj, this.loginCallBackUser);
+                this.$router.push({path: '/usersurveys'});
             }
             if (this.selectedValue === 'Admin') {
                 this.$router.push({ name: 'Admin', params: this.selectedValue });
@@ -108,10 +109,10 @@ export default {
         },
 
 
-        loginCallBackUser(response) {
-            this.$router.push({path: '/usersurveys'});
-            console.log(response);
-        }
+        // loginCallBackUser(response) {
+        //     this.$router.push({path: '/usersurveys'});
+        //     console.log(response);
+        // }
     }
 }
 

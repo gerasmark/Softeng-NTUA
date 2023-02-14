@@ -26,10 +26,9 @@
 </template>
 
 <script>
-import {options} from "axios";
+
 import postService from '../postservice';
-import  router  from "../router/index.ts";
-import { mapActions, mapGetters } from "vuex";
+
 
 export default {
     name: "UserSurveys",
@@ -50,14 +49,14 @@ export default {
 
 
 methods: {
-    ...mapActions([]),
+    // ...mapActions([]),
             goToSurvey(id) {
 
                 this.$router.push({ name: 'AnswerSurvey', params: { id } });
             },
         },
-    computed: {
-        ...mapGetters([])
-    }
+    // computed: {
+    //     ...mapGetters([])
+    // }
     };
 </script>
