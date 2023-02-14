@@ -21,8 +21,19 @@ module.exports = function(o) {
         param4 = process.argv[6];
 
         var url = constructURL('/doanswer/', param1, param2, param3, param4);
-
-        console.log(chalk.green(url));
+        var config = {
+            method: 'post',
+            url: url,
+            httpsAgent: new https.Agent({ rejectUnauthorized: false })
+        };
+        axios(config)
+            .then(res => {
+                console.log(chalk.green("Answer submitted successfully"));
+        })
+            .catch(err => {
+                errorHandler(err);
+        })
+        //console.log(chalk.green(url));
         //axios(url);
     }
     else {

@@ -8,29 +8,19 @@ const https = require('https');
 module.exports = function(o) {
 
     var url = constructURL('/resetall/');
+    var config = {
+        method: 'post',
+        url: url,
+        httpsAgent: new https.Agent({ rejectUnauthorized: false })
+    };
+    axios(config)
+        .then(res => {
+            console.log(chalk.green("Database reset successfully"));
+    })
+        .catch(err => {
+            errorHandler(err);
+    })
 
-    // fs.readFile('../cli-client/softeng20bAPI.token', 'utf8', (error, data) => {
-    //     if (error){
-    //         console.log(chalk.red('Not authorized user!'))
-    //     }
-    //     else {
-    //         var config = {
-    //             method: 'post',
-    //             url: url,
-    //             headers: {
-    //                 'X-OBSERVATORY-AUTH': data,
-    //                 'Content-Type' :  'multipart/form-data'
-    //             },
-    //             httpsAgent: new https.Agent({ rejectUnauthorized: false })
-    //         };
-    //         axios(config)
-    //         .then(res => console.log(res.data))
-    //         .catch(err => {
-    //             errorHandler(err, 'Reset sessions could not be completed!')
-    //         })
-    //     }
-    // })
-
-    console.log(chalk.green(url));
+    //console.log(chalk.green(url));
 
 }

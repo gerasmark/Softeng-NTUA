@@ -18,8 +18,19 @@ module.exports = function(o) {
         param1 = process.argv[3];
 
         var url = constructURL('/resetq/', param1);
-
-        console.log(chalk.green(url));
+        var config = {
+            method: 'post',
+            url: url,
+            httpsAgent: new https.Agent({ rejectUnauthorized: false })
+        };
+        axios(config)
+            .then(res => {
+                console.log(chalk.green("Questionnaire answers reset successfully"));
+        })
+            .catch(err => {
+                errorHandler(err);
+        })
+        //console.log(chalk.green(url));
         //axios(url);
     }
     else {

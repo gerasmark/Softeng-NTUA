@@ -6,6 +6,7 @@ module.exports = function (scope, a, b, c, d) {
     }
 
     else if (scope === '/questionnaire/') {
+        if (b===undefined) b = 'json';
         base = base + scope + a + '?format=' + b;
     }
 
@@ -14,6 +15,7 @@ module.exports = function (scope, a, b, c, d) {
     }
 
     else if (scope === '/question/') {
+        if (c===undefined) c = 'json';
         base = base + scope + a + '/' + b + '?format=' + c;
     }
 
@@ -22,10 +24,12 @@ module.exports = function (scope, a, b, c, d) {
     }
 
     else if (scope === '/getsessionanswers/') {
+        if (c===undefined) c = 'json';
         base = base + scope + a + '/' + b + '?format=' + c;
     }
 
     else if (scope === '/getquestionanswers/') {
+        if (c===undefined) c = 'json';
         base = base + scope + a + '/' + b + '?format=' + c;
     }
 

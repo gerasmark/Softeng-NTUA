@@ -3,6 +3,9 @@
     "version": "1.0.0",
     "description": "cli client for questionnaire project",
     "main": "bin/index.js",
+    "scripts": {
+        "test": "mocha test/**.test.js"
+      },
     "author": "",
     "license": "",
     "bin": {
