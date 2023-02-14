@@ -7,14 +7,17 @@
         </v-app-bar>
 
 
+
         <v-container class="text-center">
             <v-row class="my-5 justify-center" v-for="survey in surveys">
 
-                <v-card>
+                    <v-card >
+                        <v-list-item-content>
+                    <v-btn @click="goToSurvey(survey.id)">{{ survey.name }} </v-btn>
+                        </v-list-item-content>
 
-                    <v-btn @click="goToSurvey(survey.id)">{{ survey.name }}</v-btn>
 
-                </v-card>
+                    </v-card>
 
             </v-row>
         </v-container>
@@ -23,22 +26,21 @@
 </template>
 
 <script>
-import {options} from "axios";
+
 import postService from '../postservice';
-import router from "../router/index.ts";
-import {mapActions, mapGetters} from "vuex";
+
 
 export default {
     name: "UserSurveys",
     data() {
         return {
-            surveys: []
+            surveys:[]
 
         };
     },
     async created() {
         try {
-            this.surveys = await postService.getsurveys();
+            this.surveys= await postService.getsurveys();
 
         } catch (error) {
             console.error(error);
@@ -46,13 +48,15 @@ export default {
     },
 
 
-    methods: {
+methods: {
+    // ...mapActions([]),
+            goToSurvey(id) {
 
-        goToSurvey(id) {
-
-            this.$router.push({name: 'AnswerSurvey', params: {id}});
+                this.$router.push({ name: 'AnswerSurvey', params: { id } });
+            },
         },
-    },
-
-};
+    // computed: {
+    //     ...mapGetters([])
+    // }
+    };
 </script>

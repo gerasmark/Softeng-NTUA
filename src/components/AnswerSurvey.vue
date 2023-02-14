@@ -29,22 +29,24 @@
                 </v-card-text>
 
                 <v-card-text v-if="current.type !=='end'">
-                    <v-form ref="form"><v-col class="text-center">
+                    <v-form ref="form">
+                        <v-col class="text-center">
 
-                        <v-radio-group
-                                v-model="selectedOption"
-                                :mandatory="true"
-                                class="mb-3"
-                        >
+                            <v-radio-group
+                                    v-model="selectedOption"
+                                    :mandatory="true"
+                                    class="mb-3"
+                            >
 
-                            <v-radio class="mx-10"
-                                     v-for="option in current.options"
-                                     :key="option.optID"
-                                     :label="option.opttxt"
-                                     :value="option.opttxt"
-                            ></v-radio>
+                                <v-radio class="mx-10"
+                                         v-for="option in current.options"
+                                         :key="option.optID"
+                                         :label="option.opttxt"
+                                         :value="option.opttxt"
+                                ></v-radio>
 
-                        </v-radio-group></v-col>
+                            </v-radio-group>
+                        </v-col>
                     </v-form>
                 </v-card-text>
 
@@ -64,23 +66,26 @@
 <script>
 import 'vuetify/dist/vuetify.min.css'
 import '@mdi/font/css/materialdesignicons.css'
-import { options } from "axios";
+import {options} from "axios";
 import router from "../router/index.ts";
 import postService from '../postservice';
 import Vue from 'vue';
 
-export const BASE_URL = 'http://localhost:9103/intelliq_api' ;
+export const BASE_URL = 'http://localhost:9103/intelliq_api';
+import requests from '../requests';
+
 export default {
     async created() {
         try {
-            const id = this.$route.params.id
+            const questionnaireID = this.$route.params.id    // poio id einai
             this.surveys = await postService.getsurveys();
-            this.survey = this.surveys.find(survey => survey.id === id);
+            this.survey = this.surveys.find(survey => survey.id === questionnaireID);   //questionnaire!!!
             this.questions = this.survey.questions;
-            this.current = this.questions[0];
+            this.current = this.questions[0];           // το current question
             this.nextqid = this.questions[0].nextqID;
-            this.coptions = this.current.options;
-            this.nextqid = this.coptions.nextqID;
+            this.cOptions = this.current.options;
+            this.nextqid = this.cOptions.nextqID;
+            this.session = Math.floor(1000 + Math.random() * 9000);
         } catch (error) {
             console.error(error);
         }
@@ -91,19 +96,25 @@ export default {
             questions: [],
             current: {},
             selectedOption: '',
-            coptions:[],
+            cOptions: [],
             nextqid: [],
-            answers: []
+            answers: [],
+            optionID: '',
+            questionID: '',
+            session: ''
+
         };
     },
 
     methods: {
         nextQuestion() {
-            let coptions = this.current.options;
+            let cOptions = this.current.options;
             let selectedValue = this.selectedOption;
-            for (let i = 0; i < coptions.length; i++) {
-                if (coptions[i].opttxt === selectedValue) {
-                    this.nextqid = coptions[i].nextqID;
+            this.questionID = this.current.qID; //gia to postAnswer prin to allajoume sto for
+            for (let i = 0; i < cOptions.length; i++) {
+                if (cOptions[i].opttxt === selectedValue) {
+                    this.optionID = cOptions[i].optID;    //gia to postAnswer
+                    this.nextqid = cOptions[i].nextqID;
                     break;
                 }
             }
@@ -113,20 +124,21 @@ export default {
                     break;
                 }
             }
+            const baseUrl = 'http://localhost:9103/intelliq_api/doanswer/';
+            const url = `${baseUrl}${this.survey.id}/${this.questionID}/${this.session}/${this.optionID}`;
+            // console.log(this.survey.id);
+            // console.log(this.questionID);
+            // console.log(this.session);
+            // console.log(this.optionID);
+            //console.log(url);
+
+            requests.post(url);
+
             // add the answer to the answers array
-            this.answers.push({ question_id: this.current.qID, answer: selectedValue });
+            // this.answers.push({ question_id: this.current.qID, answer: selectedValue });
         },
-        async submit() {
-            try {
-                // post the answers to the API
-                await postService.postAnswers({
-                    questionnaire_id: this.surveyQuestionnaireId,
-                    answers: this.answers
-                });
-                this.$router.push({ path: '/usersurveys' });
-            } catch (error) {
-                console.error(error);
-            }
+        submit() {
+            this.$router.push({path: '/usersurveys'});
         }
     }
 }
