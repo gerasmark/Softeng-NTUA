@@ -5,19 +5,48 @@ const questionnaireModel = require('../models/questionnaire');
 const { default: mongoose } = require("mongoose");
 require('../../app.js');
 const answerModel = require('../models/answer');
+const adminModel = require('../models/admin');
+
 const fs = require('fs');
 
 
 
 
 exports.healthCheck = (req, res) => {
-    const url = 'mongodb+srv://gerasimos:gerasimos@nodeexpress.xtecm6k.mongodb.net/survey?retryWrites=true&w=majority';
-    const db = Number(mongoose.connection.readyState);
-    if (db === 1) { res.json({"status":"OK", "dbconnection":[url]});}
-    else { res.json( {"status":"failed", "dbconnection":[url]});}
+    try {
+        const url = 'mongodb+srv://gerasimos:gerasimos@nodeexpress.xtecm6k.mongodb.net/survey?retryWrites=true&w=majority';
+        const db = Number(mongoose.connection.readyState);
+        if (db === 1) {
+            res.status(200).json({"status": "OK", "dbconnection": [url]});
+        } else {
+            res.status(500).json({"status": "failed", "dbconnection": [url]});
+        }
+    }catch (error) {
+        res.status(500).send();
+    }
 }
 exports.resetAll = (req, res) => {
-
+    answerModel.deleteMany({}, (error) => {
+        if (error) {
+            res.status(500).json({"status":"failed", "reason":error});
+        } else {
+            res.status(200).json({"status":"OK"});
+        }
+    }),
+            adminModel.deleteMany({}, (error) => {
+                if (error) {
+                    res.status(500).json({"status":"failed", "reason":error});
+                } else {
+                    res.status(200).json({"status":"OK"});
+                }
+            }),
+            questionnaireModel.deleteMany({}, (error) => {
+                if (error) {
+                    res.status(500).json({"status":"failed", "reason":error});
+                } else {
+                    res.status(200).json({"status":"OK"});
+                }
+    })
 }
 
 exports.questionnaire_upd = async (req, res) => {          //find fields
@@ -32,18 +61,16 @@ exports.questionnaire_upd = async (req, res) => {          //find fields
     }catch(error) {
         res.status(500).send(error);
     }
-
-    console.log("Document inserted successfully");
-
 }
 
 
 exports.resetq = (req, res) => {
-    answerModel.deleteMany({  questionnaireID: req.params.questionnaireID }, (error) => {
+    const id = req.params.id;
+    answerModel.deleteMany({  questionnaireID: id  }, (error) => {
         if (error) {
-            res.json({"status":"failed", "reason":error});
+            res.status(500).json({"status":"failed", "reason":error});
         } else {
-            res.json({"status":"OK"});
+            res.status(200).json({"status":"OK"});
         }
     });
 
