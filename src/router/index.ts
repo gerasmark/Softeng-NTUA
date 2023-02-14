@@ -30,7 +30,7 @@ const routes = [
         component: Postuser
     },
     {
-        path: '/admin',
+        path: '/admin/:admin',
         name: 'Admin',
         component: Admin
     },

@@ -1,5 +1,5 @@
-<template >
-    <v-app id="inspire" >
+<template>
+    <v-app id="inspire">
         <v-app-bar app color="indigo" class="pa-0" :elevation="5">
             <v-col class="d-flex justify-space-around mt-10 mb-10">
                 <h1>IntelliQ</h1>
@@ -10,8 +10,6 @@
             <v-row class="mt-10 mb-10 justify-center">
                 <h1>{{ survey.name }}</h1>
             </v-row>
-
-
 
 
             <v-card class="px-lg-16 mx-16">
@@ -58,8 +56,6 @@
             </v-card>
 
         </v-container>
-
-
 
 
     </v-app>

@@ -46,18 +46,7 @@ class postService {
             }
         })
     }
-    static getquestions(params){
-        return new Promise(async (resolve, reject) => {
-            try {
-                const res = await axios.get(url3);
-                const data = res.data;
 
-                resolve(data.questions);
-            } catch (error) {
-                reject(error);
-            }
-        });
-    }
     static getinstitution(){
         return new Promise(async (resolve, reject) => {
             try {
