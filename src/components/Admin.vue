@@ -21,7 +21,7 @@
                     <v-card
                             class="mx-auto"
                             max-width="500"
-                            style="top:-175px"
+                            style="top:-180px"
                     >
                         <v-card-item class="bg-indigo-lighten-5 justify-center">
                             <v-card-title class="align-center">
@@ -30,10 +30,19 @@
                                     </span>
                             </v-card-title>
 
+
                         </v-card-item>
                     </v-card>
+
+                    <v-btn class="mx-auto mb-10"
+                           max-width="500"
+                           style="top:-100px"
+                           v-for="survey in adminSurveys">
+                        {{ survey.name }}
+                    </v-btn>
                 </v-col>
-                <p> {{adminSurveys}}</p>
+
+                <h1></h1>
             </v-row>
         </v-container>
     </v-app>
@@ -57,12 +66,20 @@ export default {
     async created() {
         this.admin = this.$route.params.admin
         this.admins = await postService.getadmin();
-        this.adminID= this.admins.find(ad => ad.name === this.admin).id;
+        this.adminID = this.admins.find(ad => ad.name === this.admin).id;
         this.surveys = await postService.getsurveys();
-        this.adminSurveys= this.surveys.filter(survey => survey.creator === this.adminID);
-
+        this.adminSurveys = this.surveys.filter(survey => survey.creator === this.adminID);
         console.log(this.adminSurveys);
 
+
+    },
+    methods: {
+        goToSurveyAdmin(survey) {
+            //function that shows you the answers of a survey
+        },
+        createSurvey() {
+            //function that takes you to the survey creation page
+        }
 
     }
 };
