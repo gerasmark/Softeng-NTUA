@@ -10,7 +10,7 @@
                 <v-row>
                     <v-col class="text-left mr-10"><h2>Welcome {{ admin }}</h2></v-col>
                     <v-col class="text-right">
-                        <v-btn @click="createSurvey()">Create a Survey</v-btn>
+                        <v-btn @click="createSurvey(admin)">Create a Survey</v-btn>
                     </v-col>
                 </v-row>
             </v-container>
@@ -78,8 +78,8 @@ export default {
         //goToSurveyAdmin(survey) {
         //function that shows you the answers of a survey
         // },
-        createSurvey() {
-            this.$router.push({ name: 'CreateSurvey' });
+        createSurvey(admin) {
+            this.$router.push({name:'CreateSurvey' });
 
 
         },

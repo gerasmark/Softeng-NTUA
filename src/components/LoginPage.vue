@@ -49,7 +49,7 @@
                                     block
                                     rounded
 
-                                    @click="login(a)"
+                                    @click="login(adName)"
                                     class="bg-indigo-lighten-1">
                                 Submit
                             </v-btn>

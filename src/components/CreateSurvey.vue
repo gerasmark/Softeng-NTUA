@@ -8,43 +8,49 @@
 
         <div class="mt-10 text-center">
             <h1> Create a Survey</h1>
-            <div style="max-width: 600px; margin: 0 auto;" v-for="(question, index) in questions" :key="index">
-                <v-card>
-                    <v-text-field label="Question ID" v-model="question.questionID" disabled />
-                    <v-text-field label="Question" class="" v-model="question.text" />
+            <div style="max-width: 600px; margin: 0 auto;">
+                <v-card class="my-10" v-for="(question, index) in questions" :key="index">
+                    <v-text-field label="Question ID" v-model="question.questionID" disabled/>
+
                     <v-select
                             label="Type"
                             v-model="question.type"
                             :items="['profile', 'question', 'end']"
                     />
-                    <v-text-field label="Answer 1" v-model="question.answers[0].text" />
-                    <v-select
-                            label="Next Question ID"
-                            v-model="question.answers[0].nextQuestionID"
-                            :items="questionIDs"
-                    />
-                    <v-text-field label="Answer 2" v-model="question.answers[1].text" />
-                    <v-select
-                            label="Next Question ID"
-                            v-model="question.answers[1].nextQuestionID"
-                            :items="questionIDs"
-                    />
-                    <v-text-field label="Answer 3" v-model="question.answers[2].text" />
-                    <v-select
-                            label="Next Question ID"
-                            v-model="question.answers[2].nextQuestionID"
-                            :items="questionIDs"
-                    />
+                    <template v-if="question.type!=='end'">
+
+                        <v-text-field label="Question" class="" v-model="question.text"/>
+                        <v-text-field label="Answer 1" v-model="question.answers[0].text"/>
+                        <v-select
+                                label="Next Question ID"
+                                v-model="question.answers[0].nextQuestionID"
+                                :items="questionIDs"
+                        />
+                        <v-text-field label="Answer 2" v-model="question.answers[1].text"/>
+                        <v-select
+                                label="Next Question ID"
+                                v-model="question.answers[1].nextQuestionID"
+                                :items="questionIDs"
+                        />
+                        <v-text-field label="Answer 3" v-model="question.answers[2].text"/>
+                        <v-select
+                                label="Next Question ID"
+                                v-model="question.answers[2].nextQuestionID"
+                                :items="questionIDs"
+                        />
+                        <v-btn @click="addQuestion">
+                            <v-icon>mdi-plus</v-icon>
+                        </v-btn>
+                    </template>
+                    <template v-else>
+                        <v-text-field label="End message" v-model="endmessage" />
+                        <v-btn color="indigo" @click="Submit()">Submit</v-btn>
+                    </template>
+
                 </v-card>
             </div>
-            <template v-if="showAddBtn">
-                <v-btn @click="addQuestion">
-                    <v-icon>mdi-plus</v-icon>
-                </v-btn>
-            </template>
-            <template v-else>
-                <v-btn color="primary">Submit</v-btn>
-            </template>
+
+
         </div>
     </v-app>
 </template>
@@ -55,15 +61,16 @@ import postService from '../postservice';
 export default {
     data() {
         return {
+            endmessage: '',
             questions: [
                 {
-                    questionID: 'Q001',
+                    questionID: 'Q000',
                     text: '',
                     type: '',
                     answers: [
-                        { text: '', nextQuestionID: '' },
-                        { text: '', nextQuestionID: '' },
-                        { text: '', nextQuestionID: '' },
+                        {text: '', nextQuestionID: '-'},
+                        {text: '', nextQuestionID: '-'},
+                        {text: '', nextQuestionID: '-'},
                     ],
                 },
             ],
@@ -87,9 +94,9 @@ export default {
                 text: '',
                 type: '',
                 answers: [
-                    { text: '', nextQuestionID: '' },
-                    { text: '', nextQuestionID: '' },
-                    { text: '', nextQuestionID: '' },
+                    {text: '', nextQuestionID: ''},
+                    {text: '', nextQuestionID: ''},
+                    {text: '', nextQuestionID: ''},
                 ],
             });
         },
@@ -100,6 +107,9 @@ export default {
                 this.showAddBtn = true;
             }
         },
+        Submit() {
+            this.$router.push({path: '/admin/'+this.$route.params.id})
+        }
     },
     created() {
         this.questions.forEach((question) => {
