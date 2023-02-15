@@ -59,7 +59,7 @@ const routes = [
         component: AnswerSurvey
     },
     {
-        path: '/createsurvey/:admin',
+        path: '/createsurvey/:adminID',
         name: 'CreateSurvey',
         component: CreateSurvey
     },
