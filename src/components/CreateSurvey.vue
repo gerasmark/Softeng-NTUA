@@ -15,14 +15,20 @@
                                   v-model="this.questionnaireTitle"
                                   style="font-weight: bold;"/>
 
-                        <v-text-field class="text-indigo-darken-4"
-                                      label="Keyword"
-                                      v-model="this.keywords"/>
+                    <v-text-field
+                            v-model="keyword"
+                            label="Keyword"
+                            placeholder="Enter a keyword"
+                    ></v-text-field>
+                    <v-btn  class="mb-8" color="primary" @click="addKeyword">Add Keyword</v-btn>
+                    <v-list>
+                        <v-list-item v-for="(keyword, index) in keywords" :key="index">
+                            {{ keyword }}
+                        </v-list-item>
+                    </v-list>
 
 
-                    <div class="mb-7">
-                        <v-btn size="small" color="indigo" @click="addKeyword()"> Add Keyword</v-btn>
-                    </div>
+
                     <v-text-field class="text-indigo-darken-4"
                                   label="Questionnaire ID"
                                   v-model="this.questionnarieID"/>
@@ -107,10 +113,11 @@ export default {
             currentQuestionIndex: 0,
             questionnaireTitle: '',
             questionnarieID: '',
-            keywords: [""],
             required: true,
             creatorID: '',
             admin: '',
+            keyword: '',
+            keywords: [],
             questions: [
                 {
                     qID: 'Q000',
@@ -152,9 +159,7 @@ export default {
                 ],
             });
         },
-        addKeyword() {
-            this.keywords.push('');
-        },
+
 
         addAnswer(index) {
             this.answerIndex = index;
@@ -169,6 +174,12 @@ export default {
         },
         deleteQuestion(questionIndex) {
             this.questions.splice(questionIndex, 1);
+        },
+        addKeyword() {
+            if (this.keyword) {
+                this.keywords.push(this.keyword);
+                this.keyword = '';
+            }
         },
 
         changeQuestionType(question) {
