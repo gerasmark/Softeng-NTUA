@@ -93,10 +93,7 @@ export default {
 
         login(admin) {
             if (this.selectedValue === 'User') {
-                var loginUserObj = {
-                    name: ''
-                }
-                requests.post(BASE_URL + '/user/postUser/', loginUserObj, this.loginCallBackUser);
+                this.$router.push({path: '/usersurveys'});
             }
             if (this.selectedValue === 'Admin') {
                 this.$router.push({path: '/admin/'+ this.adName, params: {admin} });
@@ -104,10 +101,7 @@ export default {
         },
 
 
-        loginCallBackUser(response) {
-            this.$router.push({path: '/usersurveys'});
-            console.log(response);
-        }
+
     }
 }
 
