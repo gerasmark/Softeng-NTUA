@@ -55,10 +55,10 @@ class requests {
         })
     }
 
-    static post(url, data) {
+    static postSurvey(url, data, config) {
         return new Promise(async (resolve, reject) => {
             try {
-                const res = await axios.post(url, data);
+                const res = await axios.post(url, data, config);
             } catch (error) {
                 reject(error);
             }
