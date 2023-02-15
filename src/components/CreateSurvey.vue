@@ -2,7 +2,7 @@
     <v-app id="inspire">
         <v-app-bar app color="indigo" class="pa-0" :elevation="5">
             <v-col class="d-flex justify-space-around">
-                <h1>IntelliQ</h1>
+                <h1>IntelliQ </h1>
             </v-col>
         </v-app-bar>
 
@@ -103,6 +103,9 @@ import request from '../requests.js';
 export default {
     data() {
         return {
+            admins: [],
+            adminid: '',
+            adminName: '',
             endmessage: '',
             answerIndex: '',
             currentQuestionIndex: 0,
@@ -186,8 +189,8 @@ export default {
                 questionnaireTitle: this.questionnaireTitle,
                 questionnaireID: this.questionnaireID,
                 keywords: this.keywords,
-                creatorID: this.admin,
-                questions: this.questions
+                questions: this.questions,
+                creator: this.adminid,
             }
             const config = {
                 headers: {
@@ -202,11 +205,13 @@ export default {
 
             request.postSurvey(url, jsonString, config);
 
-            this.$router.push({path: '/admin/' + this.$route.params.id})
+            this.$router.push({path: '/admin/' + this.adminName})
         }
     },
-    created() {
-        this.admin = this.$route.params.admin;
+    async created() {
+        this.adminid = this.$route.params.adminID;
+        this.admins= await postService.getadmin();
+        this.adminName = this.admins.find(admin => admin.id === this.adminid).name;
         this.questions.forEach((question) => {
             this.$watch(
                     () => question.type,
