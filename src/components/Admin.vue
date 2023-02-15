@@ -60,7 +60,7 @@ export default {
         //function that shows you the answers of a survey
         // },
         createSurvey(admin) {
-            this.$router.push({name:'CreateSurvey' });
+            this.$router.push({name:'CreateSurvey', param: 'admin'});
 
 
         },
