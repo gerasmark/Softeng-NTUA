@@ -33,14 +33,16 @@
 
                         </v-card-item>
                     </v-card>
+                    <div v-for="(survey,index) in adminSurveys" :key=index >
+                        <v-btn class="mx-auto mb-10"
+                               max-width="500"
+                               style="top:-100px"
+                               @click="viewAnswers(survey.questionnaire_id)"
+                        >
+                            {{ survey.name }}
+                        </v-btn>
+                    </div>
 
-                    <v-btn class="mx-auto mb-10"
-                           max-width="500"
-                           style="top:-100px"
-                           v-for="survey in adminSurveys"
-                            >
-                        {{ survey.name }}
-                    </v-btn>
                 </v-col>
 
                 <h1></h1>
@@ -71,6 +73,7 @@ export default {
         this.surveys = await postService.getsurveys();
         this.adminSurveys = this.surveys.filter(survey => survey.creator === this.adminID);
         console.log(this.adminSurveys);
+        console.log(this.adminSurveys[0].questionnaire_id);
 
 
     },
@@ -81,8 +84,14 @@ export default {
         createSurvey(admin) {
             this.$router.push({name:'CreateSurvey' });
 
-
         },
+        viewAnswers(questionnaireID){
+            console.log(questionnaireID);
+            const baseUrl= 'answeredSurvey/'
+            const url = `${baseUrl}${questionnaireID}`;
+            this.$router.push({path: url});
+
+        }
     },
 };
 </script>

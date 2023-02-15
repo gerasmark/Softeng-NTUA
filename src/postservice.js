@@ -38,7 +38,6 @@ class postService {
                 const res = await axios.get(url3);
                 const data = res.data;
                 const surveys = data.map(doc => ({ name: doc.questionnaireTitle, id: doc._id, questions: doc.questions, questionnaire_id: doc.questionnaireID, creator:doc.creator}));
-
                 resolve(surveys);
 
             } catch (error) {
