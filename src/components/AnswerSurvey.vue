@@ -125,7 +125,7 @@ export default {
                 }
             }
             const baseUrl = 'http://localhost:9103/intelliq_api/doanswer/';
-            const url = `${baseUrl}${this.survey.id}/${this.questionID}/${this.session}/${this.optionID}`;
+            const url = `${baseUrl}${this.survey.questionnaire_id}/${this.questionID}/${this.session}/${this.optionID}`;
             // console.log(this.survey.id);
             // console.log(this.questionID);
             // console.log(this.session);
