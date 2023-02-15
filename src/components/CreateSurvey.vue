@@ -14,12 +14,12 @@
                                   label="TITLE"
                                   v-model="this.questionnaireTitle"
                                   style="font-weight: bold;"/>
-                    <div v-for="keyword in this.keywords" class="mb-0">
+
                         <v-text-field class="text-indigo-darken-4"
                                       label="Keyword"
                                       v-model="this.keywords"/>
 
-                    </div>
+
                     <div class="mb-7">
                         <v-btn size="small" color="indigo" @click="addKeyword()"> Add Keyword</v-btn>
                     </div>
@@ -39,7 +39,7 @@
                     <template v-if="question.type!=='end'">
 
                         <v-text-field label="Question" class="text-light-blue-darken-4" v-model="question.qtext"/>
-                        <div v-for="(answer, index) in question.options" :key="index">
+                        <div v-for="(answer, index2) in question.options" :key="index2">
                             <v-text-field class="text-indigo-darken-4" label="Answer" v-model="answer.opttxt"/>
                             <v-select
                                     class="text-indigo-darken-4"
@@ -49,13 +49,13 @@
                             />
 
                         </div>
-
                         <div class="my-3">
                             <v-btn @click="addAnswer(index)" class="bg-indigo-darken-4">
                                 <v-icon>mdi-plus</v-icon>
                                 Add Answer
                             </v-btn>
                         </div>
+
                         <div class="mb-8">
                             <v-btn @click="deleteAnswer(index, answerIndex)" class="bg-red-darken-4">
                                 <v-icon>mdi-delete</v-icon>
@@ -89,7 +89,7 @@
 
                 </v-card>
             </div>
-            <p>{{questions}}</p>
+
 
 
         </div>
@@ -142,7 +142,13 @@ export default {
                 qID: newQuestionID,
                 qtext: '',
                 type: '',
-                options: optionsCopy,
+                options: [
+                    {
+                        optID: 'A1',
+                        opttxt: '',
+                        nextqID: '-'
+                    }
+                ],
             });
         },
         addKeyword() {
