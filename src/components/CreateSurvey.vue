@@ -25,7 +25,7 @@
                     </div>
                     <v-text-field class="text-indigo-darken-4"
                                   label="Questionnaire ID"
-                                  v-model="this.questionnarieID"/>
+                                  v-model="this.questionnaireID"/>
                 </v-card>
                 <v-card class="my-10" color="indigo-lighten-5" v-for="(question, index) in questions" :key="index">
                     <v-text-field label="Question ID" v-model="question.qID" disabled/>
@@ -83,7 +83,7 @@
                         </div>
                     </template>
                     <template v-else>
-                        <v-text-field label="End message" v-model="endmessage"/>
+                        <v-text-field label="End message" v-model="question.qtext"/>
                         <v-btn color="indigo" @click="Submit()">Submit</v-btn>
                     </template>
 
@@ -98,6 +98,7 @@
 
 <script>
 import postService from '../postservice';
+import request from '../requests.js';
 
 export default {
     data() {
@@ -106,9 +107,8 @@ export default {
             answerIndex: '',
             currentQuestionIndex: 0,
             questionnaireTitle: '',
-            questionnarieID: '',
+            questionnaireID: '',
             keywords: [""],
-            required: true,
             creatorID: '',
             admin: '',
             questions: [
@@ -116,6 +116,7 @@ export default {
                     qID: 'Q000',
                     qtext: '',
                     type: '',
+                    required: false,
                     options: [
                         {
                             optID: 'A1',
@@ -143,11 +144,13 @@ export default {
                 qID: newQuestionID,
                 qtext: '',
                 type: '',
+                required: false,
                 options: [
                     {
                         optID: 'A1',
                         opttxt: '',
-                        nextqID: '-'
+                        nextqID: '-',
+
                     }
                 ],
             });
@@ -175,21 +178,24 @@ export default {
             this.showAddBtn = question.type !== 'end';
         },
         Submit() {
-            this.questionnarieID = `QQ0${String(
+            this.questionnaireID = `QQ0${String(
                     Math.floor(Math.random() * 90) + 10
             )}`;
             console.log(this.questions);
-            console.log(this.questionnarieID);
+            console.log(this.questionnaireID);
             console.log(this.questionnaireTitle);
             console.log(this.keywords);
             const toSend = {
                 questionnaireTitle: this.questionnaireTitle,
-                questionnarieID: this.questionnarieID,
+                questionnaireID: this.questionnaireID,
                 keywords: this.keywords,
-                creatorID: 'ody',
+                creatorID: this.admin,
                 questions: this.questions
             }
+
             console.log(toSend);
+            const url = 'http://localhost:9103/intelliq_api/questionnaire/postQuestionnaire';
+            request.post(url, toSend);
 
             this.$router.push({path: '/admin/' + this.$route.params.id})
         }
