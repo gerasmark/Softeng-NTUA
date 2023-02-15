@@ -10,13 +10,22 @@
             <h1> Create a Survey</h1>
             <div style="max-width: 600px; margin: 0 auto;">
                 <v-card class="my-10" color="indigo-lighten-5">
-                    <v-text-field  class="text-indigo-darken-4"
-                                   label="TITLE"
-                                   v-model="this.questionnaireTitle"
-                                   style="font-weight: bold;" />
-                    <v-text-field  class="text-indigo-darken-4"
-                                   label="Keywords"
-                                   v-model="this.keywords"  />
+                    <v-text-field class="text-indigo-darken-4"
+                                  label="TITLE"
+                                  v-model="this.questionnaireTitle"
+                                  style="font-weight: bold;"/>
+                    <div v-for="keyword in this.keywords" class="mb-0">
+                        <v-text-field class="text-indigo-darken-4"
+                                      label="Keyword"
+                                      v-model="this.keywords"/>
+
+                    </div>
+                    <div class="mb-7">
+                        <v-btn size="small" color="indigo" @click="addKeyword()"> Add Keyword</v-btn>
+                    </div>
+                    <v-text-field class="text-indigo-darken-4"
+                                  label="Questionnaire ID"
+                                  v-model="this.questionnarieID"/>
                 </v-card>
                 <v-card class="my-10" color="indigo-lighten-5" v-for="(question, index) in questions" :key="index">
                     <v-text-field label="Question ID" v-model="question.qID" disabled/>
@@ -30,26 +39,48 @@
                     <template v-if="question.type!=='end'">
 
                         <v-text-field label="Question" class="text-light-blue-darken-4" v-model="question.qtext"/>
-                            <div v-for="(answer, index) in question.options" :key="index">
-                                <v-text-field class="text-indigo-darken-4" label="Answer" v-model="answer.opttxt"/>
-                                <v-select
-                                        class="text-indigo-darken-4"
-                                        label="Next Question ID"
-                                        v-model="answer.nextqID"
-                                        :items="questionIDs"
-                                />
-                            </div>
+                        <div v-for="(answer, index) in question.options" :key="index">
+                            <v-text-field class="text-indigo-darken-4" label="Answer" v-model="answer.opttxt"/>
+                            <v-select
+                                    class="text-indigo-darken-4"
+                                    label="Next Question ID"
+                                    v-model="answer.nextqID"
+                                    :items="questionIDs"
+                            />
 
-                        <v-btn @click="addAnswer" class="bg-indigo-darken-4">
-                            <v-icon>mdi-plus</v-icon>
-                            Add Answer
-                        </v-btn>
+                        </div>
+
+                        <div class="my-3">
+                            <v-btn @click="addAnswer(index)" class="bg-indigo-darken-4">
+                                <v-icon>mdi-plus</v-icon>
+                                Add Answer
+                            </v-btn>
+                        </div>
+                        <div class="mb-8">
+                            <v-btn @click="deleteAnswer(index, answerIndex)" class="bg-red-darken-4">
+                                <v-icon>mdi-delete</v-icon>
+                                Delete Answer
+                            </v-btn>
+                        </div>
                         <v-spacer></v-spacer>
                         <v-spacer></v-spacer>
-                        <v-btn @click="addQuestion" class="bg-indigo-darken-4">
-                            <v-icon>mdi-plus</v-icon>
-                            Next Question
-                        </v-btn>
+
+                        <div class="mb-3">
+                            <v-btn @click="addQuestion" class="bg-indigo-darken-4">
+                                <v-icon>mdi-plus</v-icon>
+                                Next Question
+                            </v-btn>
+                        </div>
+                        <div class="mb-4">
+                            <v-btn @click="deleteQuestion(currentQuestionIndex)" class="bg-red-darken-4">
+                                <v-icon>mdi-delete</v-icon>
+                                Delete Question
+                            </v-btn>
+                        </div>
+                        <div class="ml-4 text-left">
+                            <p>Is this question required?</p>
+                            <v-switch v-model="question.required" color="success" label="Turn on/off"></v-switch>
+                        </div>
                     </template>
                     <template v-else>
                         <v-text-field label="End message" v-model="endmessage"/>
@@ -58,6 +89,7 @@
 
                 </v-card>
             </div>
+            <p>{{questions}}</p>
 
 
         </div>
@@ -71,23 +103,23 @@ export default {
     data() {
         return {
             endmessage: '',
+            answerIndex: '',
             currentQuestionIndex: 0,
             questionnaireTitle: '',
-            questionnarieID:`QQ0${String(
-                    Math.floor(Math.random() * 100)
-            )}`,
-            keywords: '',
+            questionnarieID: '',
+            keywords: [""],
+            required: true,
             creatorID: '',
             questions: [
                 {
                     qID: 'Q000',
                     qtext: '',
                     type: '',
-                    //required: '',                   !!!!!!!!!!!!!!!!!!!!!
                     options: [
-                        {opttxt: '',
+                        {
+                            optID: 'A1',
+                            opttxt: '',
                             nextqID: '-'
-                        //optID                      !!!!!!!!!!!!!!!
                         }
                     ],
                 },
@@ -103,38 +135,41 @@ export default {
     methods: {
         addQuestion() {
             const lastQuestion = this.questions[this.questions.length - 1];
-            const newQuestionID = `Q0${String(
-                    Number(lastQuestion.qID.slice(2)) + 1
-            ).padStart(2, '0')}`;
+            const newQuestionID = `Q0${String(Number(lastQuestion.qID.slice(2)) + 1).padStart(2, '0')}`;
+            const optionsCopy = [...lastQuestion.options];
             this.currentQuestionIndex++;
-            console.log(this.currentQuestionIndex);
             this.questions.push({
                 qID: newQuestionID,
                 qtext: '',
                 type: '',
-                options: [
-                    {opttxt: '', nextqID: ''}
-                    // {text: '', nextQuestionID: ''},
-                    // {text: '', nextQuestionID: ''},
-                ],
+                options: optionsCopy,
             });
         },
-        addAnswer() {
-            this.currentQuestionIndex = this.questions.length - 1;
-            this.questions[this.currentQuestionIndex].options.push({opttxt: '', nextqID: '-'});
-            console.log(this.questions[this.currentQuestionIndex].options);
-            console.log(this.questions[this.currentQuestionIndex].options);
+        addKeyword() {
+            this.keywords.push('');
         },
+
+        addAnswer(index) {
+            this.answerIndex = index;
+            this.questions[index].options.push({
+                optID: `A${this.questions[index].options.length + 1}`,
+                opttxt: '',
+                nextqID: '-'
+            });
+        },
+        deleteAnswer(questionIndex, answerIndex) {
+            this.questions[questionIndex].options.splice(answerIndex, 1);
+        },
+        deleteQuestion(questionIndex) {
+            this.questions.splice(questionIndex, 1);
+        },
+
         changeQuestionType(question) {
-            if (question.type === 'end') {
-                this.showAddBtn = false;
-            } else {
-                this.showAddBtn = true;
-            }
+            this.showAddBtn = question.type !== 'end';
         },
         Submit() {
             this.questionnarieID = `QQ0${String(
-                    Math.floor(Math.random() * 90)+10
+                    Math.floor(Math.random() * 90) + 10
             )}`;
             console.log(this.questions);
             console.log(this.questionnarieID);
