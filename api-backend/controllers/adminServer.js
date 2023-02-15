@@ -66,7 +66,7 @@ exports.questionnaire_upd = async (req, res) => {          //find fields
 
 exports.resetq = (req, res) => {
     const id = req.params.id;
-    questionnaireModel.deleteMany({  questionnaireID: id  }, (error) => {
+    answerModel.deleteMany({  questionnaireID: id  }, (error) => {
         if (error) {
             res.status(500).json({"status":"failed", "reason":error});
         } else {

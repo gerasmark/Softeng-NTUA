@@ -84,7 +84,7 @@ export default {
     }),
     async created() {
         try{
-            this.admins = await requests.get(BASE_URL + '/adminPage/');
+            this.admins = await requests.get(BASE_URL + '/adminpage/');
             this.institutions = await requests.get(BASE_URL +'/institution/');
         }catch (error) {
             reject(error);
