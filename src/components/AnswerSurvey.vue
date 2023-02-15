@@ -132,7 +132,7 @@ export default {
             // console.log(this.optionID);
             //console.log(url);
 
-            requests.post(url);
+            requests.postAnswer(url);
 
             // add the answer to the answers array
             // this.answers.push({ question_id: this.current.qID, answer: selectedValue });
