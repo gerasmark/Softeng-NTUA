@@ -7,7 +7,7 @@
         </v-app-bar>
 
         <div class="mt-10 text-center">
-            <h1> Create a Survey</h1>
+            <h1> Create a Survey </h1>
             <div style="max-width: 600px; margin: 0 auto;">
                 <v-card class="my-10" color="indigo-lighten-5">
                     <v-text-field class="text-indigo-darken-4"
@@ -110,6 +110,7 @@ export default {
             keywords: [""],
             required: true,
             creatorID: '',
+            admin: '',
             questions: [
                 {
                     qID: 'Q000',
@@ -194,6 +195,7 @@ export default {
         }
     },
     created() {
+        this.admin = this.$route.params.admin;
         this.questions.forEach((question) => {
             this.$watch(
                     () => question.type,
