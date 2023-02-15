@@ -178,13 +178,10 @@ export default {
             this.showAddBtn = question.type !== 'end';
         },
         Submit() {
-            this.questionnaireID = `QQ0${String(
-                    Math.floor(Math.random() * 90) + 10
-            )}`;
-            console.log(this.questions);
-            console.log(this.questionnaireID);
-            console.log(this.questionnaireTitle);
-            console.log(this.keywords);
+            // console.log(this.questions);
+            // console.log(this.questionnaireID);
+            // console.log(this.questionnaireTitle);
+            // console.log(this.keywords);
             const toSend = {
                 questionnaireTitle: this.questionnaireTitle,
                 questionnaireID: this.questionnaireID,
@@ -192,10 +189,18 @@ export default {
                 creatorID: this.admin,
                 questions: this.questions
             }
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
 
-            console.log(toSend);
+            const jsonString = JSON.stringify(toSend);
+            console.log(jsonString);
+
             const url = 'http://localhost:9103/intelliq_api/questionnaire/postQuestionnaire';
-            request.post(url, toSend);
+
+            request.postSurvey(url, jsonString, config);
 
             this.$router.push({path: '/admin/' + this.$route.params.id})
         }
