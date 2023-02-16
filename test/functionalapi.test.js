@@ -422,34 +422,7 @@ describe('Resetq Endpoint', () => {
     });
 });
 
-describe('Questionnaire_upd Endpoint', () => {
-    before((done) => {
-      // Connect to your database
-      mongoose.connect('mongodb+srv://gerasimos:gerasimos@nodeexpress.xtecm6k.mongodb.net/survey?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
-        if (err) {
-          console.error(err);
-          process.exit(1);
-        }
-        done();
-      });
-    });
-    it("Should return status code 200 when successful", (done) => {
-        //request(app)
-        app2.post('/intelliq_api/admin/questionnaire_upd', upload.single(), adminController.questionnaire_upd)
-    });
-    it('Should return an object', (done) => {
-        expect(uploaded).to.be.an('object');
-        //expect(healthcheck.status).to.eq(200);
-        done();
-    });
-    after(function(done) {
-        // Disconnect from your database after all tests are done
-        mongoose.disconnect(done);
-    });
-});
-
-
-// describe('Resetall Endpoint', () => {
+// describe('Questionnaire_upd Endpoint', () => {
 //     before((done) => {
 //       // Connect to your database
 //       mongoose.connect('mongodb+srv://gerasimos:gerasimos@nodeexpress.xtecm6k.mongodb.net/survey?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
@@ -460,28 +433,54 @@ describe('Questionnaire_upd Endpoint', () => {
 //         done();
 //       });
 //     });
-//     it("Should return status code 200", (done) => {
-//         request(app)
-//         .post('/intelliq_api/admin/resetall')
-//         .end((err, res) => {
-//             resetall = res.body;
-//             //expect(healthcheck.body).to.be.an('object');
-//             expect(res.status).to.eq(200);
-//             done();
-//         })
+//     it("Should return status code 200 when successful", (done) => {
+//         //request(app)
+//         app2.post('/intelliq_api/admin/questionnaire_upd', upload.single(), adminController.questionnaire_upd)
 //     });
 //     it('Should return an object', (done) => {
-//         expect(resetall).to.be.an('object');
+//         expect(uploaded).to.be.an('object');
 //         //expect(healthcheck.status).to.eq(200);
 //         done();
 //     });
-//     it('Should return status: "OK"', (done) => {
-//         expect(resetall.status).to.eq('OK');
-//         //expect(healthcheck.status).to.eq(200);
-//         done();
-//     });
-//     after(function() {
+//     after(function(done) {
 //         // Disconnect from your database after all tests are done
-//         //if(Number(mongoose.connection.readyState) != 0) mongoose.disconnect(done);
+//         mongoose.disconnect(done);
 //     });
 // });
+
+
+describe('Resetall Endpoint', () => {
+    before((done) => {
+      // Connect to your database
+      mongoose.connect('mongodb+srv://gerasimos:gerasimos@nodeexpress.xtecm6k.mongodb.net/survey?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
+        if (err) {
+          console.error(err);
+          process.exit(1);
+        }
+        done();
+      });
+    });
+    it("Should return status code 200", (done) => {
+        request(app)
+        .post('/intelliq_api/admin/resetall')
+        .end((err, res) => {
+            resetall = res.body;
+            //expect(healthcheck.body).to.be.an('object');
+            expect(res.status).to.eq(200);
+            done();
+        })
+    });
+    it('Should return an object', (done) => {
+        expect(resetall).to.be.an('object');
+        //expect(healthcheck.status).to.eq(200);
+        done();
+    });
+    it('Should return status: "OK"', (done) => {
+        expect(resetall.status).to.eq('OK');
+        //expect(healthcheck.status).to.eq(200);
+        done();
+    });
+    after(function(done) {
+        mongoose.disconnect(done);
+    });
+});
