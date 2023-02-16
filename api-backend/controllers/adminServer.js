@@ -29,21 +29,24 @@ exports.resetAll = (req, res) => {
     answerModel.deleteMany({}, (error) => {
         if (error) {
             return res.status(500).json({"status":"failed", "reason":error});
-        } else {
-            return res.status(200).json({"status":"OK"});
         }
+        // else {
+        //     return res.status(200).json({"status":"OK"});
+        // }
     }),
             adminModel.deleteMany({}, (error) => {
                 if (error) {
                     return res.status(500).json({"status":"failed", "reason":error});
-                } else {
-                    return res.status(200).json({"status":"OK"});
                 }
+                // else {
+                //     return res.status(200).json({"status":"OK"});
+                // }
             }),
             questionnaireModel.deleteMany({}, (error) => {
                 if (error) {
                    return  res.status(500).json({"status":"failed", "reason":error});
-                } else {
+                }
+                else {
                     return res.status(200).json({"status":"OK"});
                 }
     })
