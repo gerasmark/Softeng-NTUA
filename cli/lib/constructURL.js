@@ -1,8 +1,8 @@
 module.exports = function (scope, a, b, c, d) {
-    let base = 'https://localhost:9103/intelliq_api';
+    let base = 'http://localhost:9103/intelliq_api';
 
     if (scope === '/resetq/') {
-        base = base + scope + a;
+        base = base + '/admin' + scope + a;
     }
 
     else if (scope === '/questionnaire/') {
@@ -11,7 +11,7 @@ module.exports = function (scope, a, b, c, d) {
     }
 
     else if (scope === '/questionnaire_upd/') {
-        base = base + scope + a;
+        base = base + '/admin' + scope;
     }
 
     else if (scope === '/question/') {

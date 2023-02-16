@@ -25,7 +25,7 @@ module.exports = function(o) {
         };
         axios(config)
             .then(res => {
-                console.log(chalk.green("Questionnaire answers reset successfully"));
+                console.dir(res.data,{depth:null})
         })
             .catch(err => {
                 errorHandler(err);
