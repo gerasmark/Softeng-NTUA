@@ -2,13 +2,12 @@ const request = require('supertest');
 const chai = require('chai')
 const expect = chai.expect;
 const {exec} = require("child_process");
-//const express = require("express");
-//const adminController = require('../api-backend/controllers/adminServer');
 const app = require('../app');
 const axios = require('axios');
+const fs = require('fs');
 const https = require('https');
+const FormData = require('form-data');
 const express = require("express");
-//const { default: mongoose } = require("mongoose");
 const app2 = express.Router();
 const mongoose = require('mongoose');
 const adminController = require('../api-backend/controllers/adminServer');
@@ -32,19 +31,16 @@ describe('Healthcheck Endpoint', () => {
         .get('/intelliq_api/admin/healthcheck')
         .end((err, res) => {
             healthcheck = res.body;
-            //expect(healthcheck.body).to.be.an('object');
             expect(res.status).to.eq(200);
             done();
         })
     });
     it('Should return an object', (done) => {
         expect(healthcheck).to.be.an('object');
-        //expect(healthcheck.status).to.eq(200);
         done();
     });
     it('Should return status: "OK"', (done) => {
         expect(healthcheck.status).to.eq('OK');
-        //expect(healthcheck.status).to.eq(200);
         done();
     });
     it("Should return status code 500 when disconnected", (done) => {
@@ -93,13 +89,11 @@ describe('Questionnaire Endpoint', () => {
     });
     it('Should return an object', () => {
         expect(questionnaire).to.be.an('object');
-        //done();
     });
     it('Should return questionnaire with ID QQ001', () => {
         const data = questionnaire.body;
         const data1 = data[0].questionnaireID;
         expect(data1).to.eq('QQ001');
-        //done();
     });
     it('Should return status code 400 for missing parameter', (done) => {
         request(app)
@@ -161,7 +155,6 @@ describe('Question Endpoint', () => {
     });
     it('Should return question with ID P01 from QQ001', () => {
         const data = question.body.qID;
-        //const data1 = data[0].questions;
         expect(data).to.eq('P01');
         //done();
     });
@@ -220,13 +213,10 @@ describe('Getquestionanswers Endpoint', () => {
     });
     it('Should return an object', () => {
         expect(questionanswers).to.be.an('object');
-        //done();
     });
     it('Should return answer P01A1 for question P01 from Q001', () => {
         const data = questionanswers.body.answer;
-        //const data1 = data[0].questions;
         expect(data[0].ans).to.eq('P01A1');
-        //done();
     });
     it('Should return status code 400 for missing parameter', (done) => {
         request(app)
@@ -284,16 +274,13 @@ describe('Getsessionanswers Endpoint', () => {
     });
     it('Should return an object', () => {
         expect(sessionanswers).to.be.an('object');
-        //done();
     });
     it('Should return object with answers for session 1111 from Q000', () => {
         const data = sessionanswers.body;
         const data1 = data[0]
-        //const data1 = data[0].questions;
         expect(data1).to.have.property('questionnaireID');
         expect(data1).to.have.property('answers');
         expect(data1).to.have.property('session');
-        //done();
     });
     it('Should return status code 400 for missing parameter', (done) => {
         request(app)
@@ -351,7 +338,6 @@ describe('Doanswer Endpoint', () => {
     });
     it('Should return nothing', () => {
         expect(doanswer.body[0]).to.eq(undefined);
-        //done();
     });
     it('Should return status code 400 for missing parameter', (done) => {
         request(app)
@@ -364,11 +350,62 @@ describe('Doanswer Endpoint', () => {
     });
     it('Should return an object', () => {
         expect(doanswer2).to.be.an('object');
-        //done();
     });
     it('Should return "Bad request"', () => {
         expect(doanswer2.body.message).to.eq("Bad request");
-        //done();
+    });
+    after(function(done) {
+        // Disconnect from your database after all tests are done
+        mongoose.disconnect(done);
+    });
+});
+
+describe('Questionnaire_upd Endpoint', () => {
+    before((done) => {
+      // Connect to your database
+      mongoose.connect('mongodb+srv://gerasimos:gerasimos@nodeexpress.xtecm6k.mongodb.net/survey?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
+        if (err) {
+          console.error(err);
+          process.exit(1);
+        }
+        done();
+      });
+    });
+    it("Should return status code 200 when successful", (done) => {
+        function uploadFile(file) {
+            const formData = new FormData();
+            formData.append('', fs.createReadStream(file));
+          
+            return axios.post('/intelliq_api/admin/questionnaire_upd', formData, {
+              headers: {
+                ...formData.getHeaders()
+              }
+            });
+        }
+        const file = __dirname + '/QQ169.json';
+        uploadFile(file)
+            .then(response => {
+                expect(response.status).to.eq(200);
+            })
+            done();
+    });
+    it("File should be uploaded as an object", (done) => {
+        function uploadFile(file) {
+            const formData = new FormData();
+            formData.append('', fs.createReadStream(file));
+          
+            return axios.post('/intelliq_api/admin/questionnaire_upd', formData, {
+              headers: {
+                ...formData.getHeaders()
+              }
+            });
+        }
+        const file = __dirname + '/QQ169.json';
+        uploadFile(file)
+            .then(response => {
+                expect(response.body).to.be.an('object');
+            })
+            done();
     });
     after(function(done) {
         // Disconnect from your database after all tests are done
@@ -392,19 +429,16 @@ describe('Resetq Endpoint', () => {
         .post('/intelliq_api/admin/resetq/Q000')
         .end((err, res) => {
             resetq = res.body;
-            //expect(healthcheck.body).to.be.an('object');
             expect(res.status).to.eq(200);
             done();
         })
     });
     it('Should return an object', (done) => {
         expect(resetq).to.be.an('object');
-        //expect(healthcheck.status).to.eq(200);
         done();
     });
     it('Should return status: "OK"', (done) => {
         expect(resetq.status).to.eq('OK');
-        //expect(healthcheck.status).to.eq(200);
         done();
     });
     it("Should return status code 500 when disconnected", (done) => {
@@ -431,32 +465,6 @@ describe('Resetq Endpoint', () => {
     });
 });
 
-// describe('Questionnaire_upd Endpoint', () => {
-//     before((done) => {
-//       // Connect to your database
-//       mongoose.connect('mongodb+srv://gerasimos:gerasimos@nodeexpress.xtecm6k.mongodb.net/survey?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
-//         if (err) {
-//           console.error(err);
-//           process.exit(1);
-//         }
-//         done();
-//       });
-//     });
-//     it("Should return status code 200 when successful", (done) => {
-//         //request(app)
-//         app2.post('/intelliq_api/admin/questionnaire_upd', upload.single(), adminController.questionnaire_upd)
-//     });
-//     it('Should return an object', (done) => {
-//         expect(uploaded).to.be.an('object');
-//         //expect(healthcheck.status).to.eq(200);
-//         done();
-//     });
-//     after(function(done) {
-//         // Disconnect from your database after all tests are done
-//         mongoose.disconnect(done);
-//     });
-// });
-
 
 describe('Resetall Endpoint', () => {
     before((done) => {
@@ -474,19 +482,16 @@ describe('Resetall Endpoint', () => {
         .post('/intelliq_api/admin/resetall')
         .end((err, res) => {
             resetall = res.body;
-            //expect(healthcheck.body).to.be.an('object');
             expect(res.status).to.eq(200);
             done();
         })
     });
     it('Should return an object', (done) => {
         expect(resetall).to.be.an('object');
-        //expect(healthcheck.status).to.eq(200);
         done();
     });
     it('Should return status: "OK"', (done) => {
         expect(resetall.status).to.eq('OK');
-        //expect(healthcheck.status).to.eq(200);
         done();
     });
     after(function(done) {
