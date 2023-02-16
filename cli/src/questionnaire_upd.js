@@ -150,124 +150,38 @@ const questionnaireModel = require('D:/Documents/GitHub/SoftEng22-22/api-backend
 
 
 module.exports = function(o) {
-
-
-
-
     isWrong = false;
-    
     if (process.argv[3] === undefined){
         isWrong = true;
     }
-
     if (!isWrong) {
-    
         source = process.argv[3]; //file path
-
         var url = constructURL('/questionnaire_upd/');
-    
 
+        function uploadFile(file) {
+            const formData = new FormData();
+            formData.append('', fs.createReadStream(file));
+          
+            return axios.post(url, formData, {
+              headers: {
+                ...formData.getHeaders()
+              }
+            });
+        }
+          
+          
+        const file = source;
+        uploadFile(file)
+            .then(response => {
+                //console.log(response.data);
+                console.log('File uploaded successfully');
+            })
+            .catch(error => {
+                console.error(error);
+            });
+          
         
-        
-        const file = fs.readFile(source, 'utf8', (err, data) => {
-            if (err) {
-              console.error(err);
-            } else {
-                const file = JSON.parse(data);
-                //console.dir(file,{depth:null});
-                console.log(file);
-
-
-                async function questionnaire_upd(file) {          //find fields
-                    //const file= req.file;
-                    //const fileData = fs.readFileSync(file.path);
-                    //const data = JSON.parse(fileData);
-                
-                    const questionnaire = new questionnaireModel(file);
-                    try {
-                        await questionnaire.save();
-                        //res.status(200).send(questionnaire);
-                    }catch(error) {
-                        //res.status(500).send(error);
-                    }
-                }
-                //app.post('/questionnaire_upd', file, appfunction.adminController.questionnaire_upd);
-                //const formData = new FormData();
-                //formData.append('file', file);
-
-
-
-                // var config = {
-                //     method: 'post',
-                //     url: url,
-                //     headers: {
-                //         'Content-Type': 'multipart/form-data'
-                //     },
-                //     // formData: {
-                //     //     "file": JSON.parse(file)
-                //     // },
-                //     data: file,
-                //     //headers: file.getHeaders(),
-                //     // data: JSON.parse(file),
-                //     httpsAgent: new https.Agent({ rejectUnauthorized: false })
-                // };
-                // axios(config)
-                //     .then(res => {
-                //         console.log(chalk.green("File updated successfully"));
-                //         //console.log(file);
-                // })
-                //     .catch(err => {
-                //         //errorHandler(err);
-                //         console.error(err);
-                // })
-
-
-                // const config = { headers: { 'Content-Type': 'multipart/form-data; boundary=data.getBoundary() ' } };
-                const fd = new FormData();
-                fd.append('file',data);
-
-
-                var config = {
-                    method: 'post',
-                    url: url,
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    },
-                    formData: {
-                        "file": fs.createReadStream(source)
-                    },
-                    rejectUnauthorized: false
-                };
-
-                express.Router.post(url, upload.single(), questionnaire_upd(file));
-
-                // request(config, function (err, data, body) {
-                //     if (err) {
-                //         console.log(err);
-                //     }
-                //     else {
-                //         console.log(body);
-                //     }
-                // });
-
-                // axios.post(url, fd, {
-                //     headers: {
-                //         'Content-Type': 'multipart/form-data'
-                //     } 
-                // })
-                // .then(res => {
-                //     console.log(chalk.green("File updated successfully"));
-                //     console.log(res);
-                // })
-                // .catch(err => {
-                //     //errorHandler(err);
-                //     console.error(err);
-                // });
-              //console.log(fd); // This will print the contents of the file
-            }
-          });
-        
-        console.log(chalk.green(url));
+        //console.log(chalk.green(url));
     }
     else {
         console.log(chalk.red('Error: mandatory parameters omitted\n'));
