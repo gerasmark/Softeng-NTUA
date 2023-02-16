@@ -178,7 +178,7 @@ exports.getQuestionAnswers = async (req, res) => {
 
         const data = {"questionnaireID": id1, "qID": id2, answer};
         const format = req.query.format;
-        if(data.length==0){
+        if(answer.length==0){
             res.status(402).json({message: 'No data'});
             return;
         }

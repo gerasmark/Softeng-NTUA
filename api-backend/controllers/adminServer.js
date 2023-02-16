@@ -28,23 +28,26 @@ exports.healthCheck = (req, res) => {
 exports.resetAll = (req, res) => {
     answerModel.deleteMany({}, (error) => {
         if (error) {
-            res.status(500).json({"status":"failed", "reason":error});
-        } else {
-            res.status(200).json({"status":"OK"});
+            return res.status(500).json({"status":"failed", "reason":error});
         }
+        // else {
+        //     return res.status(200).json({"status":"OK"});
+        // }
     }),
             adminModel.deleteMany({}, (error) => {
                 if (error) {
-                    res.status(500).json({"status":"failed", "reason":error});
-                } else {
-                    res.status(200).json({"status":"OK"});
+                    return res.status(500).json({"status":"failed", "reason":error});
                 }
+                // else {
+                //     return res.status(200).json({"status":"OK"});
+                // }
             }),
             questionnaireModel.deleteMany({}, (error) => {
                 if (error) {
-                    res.status(500).json({"status":"failed", "reason":error});
-                } else {
-                    res.status(200).json({"status":"OK"});
+                   return  res.status(500).json({"status":"failed", "reason":error});
+                }
+                else {
+                    return res.status(200).json({"status":"OK"});
                 }
     })
 }
