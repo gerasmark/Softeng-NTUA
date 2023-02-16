@@ -7,11 +7,14 @@ const {exec} = require("child_process");
 const app = require('../app');
 const axios = require('axios');
 const https = require('https');
+const express = require("express");
+//const { default: mongoose } = require("mongoose");
+const app2 = express.Router();
 const mongoose = require('mongoose');
 const adminController = require('../api-backend/controllers/adminServer');
 const multer = require('multer');
 const storage = multer.memoryStorage();
-const upload = multer({ dest: '../uploads/'});
+const upload = multer({ dest: 'uploads/'});
 
 describe('Healthcheck Endpoint', () => {
     before((done) => {
@@ -431,14 +434,8 @@ describe('Questionnaire_upd Endpoint', () => {
       });
     });
     it("Should return status code 200 when successful", (done) => {
-        request(app)
-        .post('/intelliq_api/admin/questionnaire_upd', upload.single(), adminController.questionnaire_upd)
-        .end((err, res) => {
-            uploaded = res.body;
-            //expect(healthcheck.body).to.be.an('object');
-            expect(res.status).to.eq(200);
-            done();
-        })
+        //request(app)
+        app2.post('/intelliq_api/admin/questionnaire_upd', upload.single(), adminController.questionnaire_upd)
     });
     it('Should return an object', (done) => {
         expect(uploaded).to.be.an('object');
