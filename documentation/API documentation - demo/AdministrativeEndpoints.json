@@ -4,7 +4,7 @@
         "name": "EndpointsforCLI",
         "description": "# Introduction\n\nThese are the Administrative Endpoints of our server.\n\n# Overview\n\nExamples are included in each endpoint that returns a response.\n\n# Error Codes\n\nError handling with appropriate HTTP status codes.\n\n\\>500 for Internal server error",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-        "_exporter_id": "25448118"
+        "_exporter_id": "25404223"
     },
     "item": [
         {
@@ -23,67 +23,7 @@
                     ]
                 }
             },
-            "response": [
-                {
-                    "name": "/admin/healthcheck",
-                    "originalRequest": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "https://localhost:9103/intelliq_api/admin/healthcheck",
-                            "protocol": "https",
-                            "host": [
-                                "localhost"
-                            ],
-                            "port": "9103",
-                            "path": [
-                                "intelliq_api",
-                                "admin",
-                                "healthcheck"
-                            ]
-                        }
-                    },
-                    "status": "OK",
-                    "code": 200,
-                    "_postman_previewlanguage": "json",
-                    "header": [
-                        {
-                            "key": "X-Powered-By",
-                            "value": "Express"
-                        },
-                        {
-                            "key": "Access-Control-Allow-Origin",
-                            "value": "*"
-                        },
-                        {
-                            "key": "Content-Type",
-                            "value": "application/json; charset=utf-8"
-                        },
-                        {
-                            "key": "Content-Length",
-                            "value": "135"
-                        },
-                        {
-                            "key": "ETag",
-                            "value": "W/\"87-FPJkQWB75b//S6HibvDt0VnJFHk\""
-                        },
-                        {
-                            "key": "Date",
-                            "value": "Sun, 12 Feb 2023 20:41:03 GMT"
-                        },
-                        {
-                            "key": "Connection",
-                            "value": "keep-alive"
-                        },
-                        {
-                            "key": "Keep-Alive",
-                            "value": "timeout=5"
-                        }
-                    ],
-                    "cookie": [],
-                    "body": "{\n    \"status\": \"OK\",\n    \"dbconnection\": [\n        \"mongodb+srv://gerasimos:gerasimos@nodeexpress.xtecm6k.mongodb.net/survey?retryWrites=true&w=majority\"\n    ]\n}"
-                }
-            ]
+            "response": []
         },
         {
             "name": "/admin/questionnaire_upd",
@@ -107,14 +47,11 @@
                     ]
                 },
                 "url": {
-                    "raw": "https://localhost:9103/intelliq_api/admin/questionnaire_upd",
-                    "protocol": "https",
+                    "raw": "{{baseURL}}/admin/questionnaire_upd",
                     "host": [
-                        "localhost"
+                        "{{baseURL}}"
                     ],
-                    "port": "9103",
                     "path": [
-                        "intelliq_api",
                         "admin",
                         "questionnaire_upd"
                     ]
@@ -242,10 +179,30 @@
             "response": []
         }
     ],
+    "event": [
+        {
+            "listen": "prerequest",
+            "script": {
+                "type": "text/javascript",
+                "exec": [
+                    ""
+                ]
+            }
+        },
+        {
+            "listen": "test",
+            "script": {
+                "type": "text/javascript",
+                "exec": [
+                    ""
+                ]
+            }
+        }
+    ],
     "variable": [
         {
             "key": "baseURL",
-            "value": "https://localhost:9103/intelliq_api"
+            "value": "http://localhost:9103/intelliq_api"
         }
     ]
 }
