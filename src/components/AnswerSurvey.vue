@@ -2,7 +2,7 @@
     <v-app id="inspire">
         <v-app-bar app color="indigo" class="pa-0" :elevation="5">
             <v-col class="d-flex justify-space-around mt-10 mb-10">
-                <h1>IntelliQ</h1>
+               <h1>IntelliQ</h1>
             </v-col>
         </v-app-bar>
 
@@ -140,6 +140,7 @@ export default {
         submit() {
             this.$router.push({path: '/usersurveys'});
         }
+
     }
 }
 </script>

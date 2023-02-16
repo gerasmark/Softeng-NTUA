@@ -6,6 +6,7 @@
             </v-col>
         </v-app-bar>
 
+
         <h1 class="text-center mt-10">{{ questionnaire.questionnaireTitle }}</h1>
         <v-container>
             <v-row>
@@ -13,7 +14,7 @@
                     <h2>{{ question.qtext }}</h2>
                     <v-list>
                         <v-list-item v-for="answer in answers[index]" :key="answer.optID">
-                            <v-list-item-title>{{ answer.ans }}</v-list-item-title>
+                            <v-list-item-title> Session {{answer.session}}: {{ matchAnswer(answer.ans, question) }}</v-list-item-title>
                         </v-list-item>
                     </v-list>
                 </v-col>
@@ -33,6 +34,7 @@ export default {
             questionTitle: [],
             answers: [],
             questionnaire: [],
+            ans: [],
         };
     },
     async created() {
@@ -56,7 +58,19 @@ export default {
             console.error(error);
         }
 
+    },
+    methods: {
+        matchAnswer(ans, question) {
+            for (let i = 0; i < question.options.length; i++) {
+                if (ans === question.options[i].optID) {
+                    return question.options[i].opttxt;
+                }
+            }
+
+
+        }
     }
+
 }
 </script>
 
