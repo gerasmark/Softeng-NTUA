@@ -237,10 +237,19 @@ describe('Getquestionanswers Endpoint', () => {
             done();
         })
     });
+    it('Should return status code 402 for getquestionanswers/0/0', (done) => {
+        request(app)
+        .get('/intelliq_api/getquestionanswers/0/0')
+        .end((err, res) => {
+            questionnaireanswers = res;
+            expect(res.status).to.eq(402);
+            done();
+        })
+    });
     it('Should return status code 500 when disconnected', (done) => {
         mongoose.disconnect();
         request(app)
-        .get('/intelliq_api/questionnaire/QQ001/')
+        .get('/intelliq_api/getquestionanswers/QQ001/P01')
         .end((err, res) => {
             questionnaireanswers = res;
             expect(res.status).to.eq(500);
