@@ -20,9 +20,9 @@
                                       v-model="this.keywords"/>
 
 
-                    <div class="mb-7">
-                        <v-btn size="small" color="indigo" @click="addKeyword()"> Add Keyword</v-btn>
-                    </div>
+<!--                    <div class="mb-7">-->
+<!--                        <v-btn size="small" color="indigo" @click="addKeyword()"> Add Keyword</v-btn>-->
+<!--                    </div>-->
                     <v-text-field class="text-indigo-darken-4"
                                   label="Questionnaire ID"
                                   v-model="this.questionnaireID"/>
@@ -158,9 +158,9 @@ export default {
                 ],
             });
         },
-        addKeyword() {
-            this.keywords.push('');
-        },
+        // addKeyword() {
+        //     this.keywords.push('');
+        // },
 
         addAnswer(index) {
             this.answerIndex = index;
