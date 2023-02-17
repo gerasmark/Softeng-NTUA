@@ -30,17 +30,11 @@ exports.resetAll = (req, res) => {
         if (error) {
             return res.status(500).json({"status":"failed", "reason":error});
         }
-        // else {
-        //     return res.status(200).json({"status":"OK"});
-        // }
     }),
             adminModel.deleteMany({}, (error) => {
                 if (error) {
                     return res.status(500).json({"status":"failed", "reason":error});
                 }
-                // else {
-                //     return res.status(200).json({"status":"OK"});
-                // }
             }),
             questionnaireModel.deleteMany({}, (error) => {
                 if (error) {
@@ -69,15 +63,6 @@ exports.questionnaire_upd = async (req, res) => {          //find fields
         res.status(400).json({message: 'Bad request'});
         return
     }
-
-    // const questionnaire = new questionnaireModel(data);
-    // try {
-    //     await questionnaire.save();
-    //     res.status(201).send(questionnaire);
-    // }catch(error) {
-    //     res.status(500).send(error);
-    //     return
-    // }
 }
 
 
