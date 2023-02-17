@@ -31,11 +31,11 @@ exports.resetAll = (req, res) => {
             return res.status(500).json({"status":"failed", "reason":error});
         }
     }),
-            adminModel.deleteMany({}, (error) => {
-                if (error) {
-                    return res.status(500).json({"status":"failed", "reason":error});
-                }
-            }),
+            // adminModel.deleteMany({}, (error) => {
+            //     if (error) {
+            //         return res.status(500).json({"status":"failed", "reason":error});
+            //     }
+            // }),
             questionnaireModel.deleteMany({}, (error) => {
                 if (error) {
                    return  res.status(500).json({"status":"failed", "reason":error});
