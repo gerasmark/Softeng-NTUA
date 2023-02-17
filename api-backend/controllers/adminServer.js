@@ -57,19 +57,27 @@ exports.questionnaire_upd = async (req, res) => {          //find fields
     const fileData = fs.readFileSync(file.path);
     try {
         const data = JSON.parse(fileData);
+        const questionnaire = new questionnaireModel(data);
+        try {
+            await questionnaire.save();
+            res.status(201).send(questionnaire);
+        }catch(error) {
+            res.status(500).send(error);
+            return
+        }
     }catch (error) {
         res.status(400).json({message: 'Bad request'});
         return
     }
 
-    const questionnaire = new questionnaireModel(data);
-    try {
-        await questionnaire.save();
-        res.status(201).send(questionnaire);
-    }catch(error) {
-        res.status(500).send(error);
-        return
-    }
+    // const questionnaire = new questionnaireModel(data);
+    // try {
+    //     await questionnaire.save();
+    //     res.status(201).send(questionnaire);
+    // }catch(error) {
+    //     res.status(500).send(error);
+    //     return
+    // }
 }
 
 
